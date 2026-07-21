@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projects — Your Name</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=Special+Elite&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  html, body{ height:100%; }
+  body{ overflow-x: hidden; }
+
+
+
+  /* ---------- View toggle ---------- */
+  .view-toggle{
+    position: fixed;
+    top: 90px;
+    right: clamp(20px, 5vw, 56px);
+    z-index: 20;
+    display:flex;
+    align-items:center;
+    background: rgba(18,21,20,0.7);
+    backdrop-filter: blur(6px);
+    border: 1px solid var(--rule);
+    border-radius: 30px;
+    padding: 3px;
+    gap: 2px;
+  }
+  .vt-btn{
+    position:relative;
+    z-index: 2;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    padding: 8px 16px;
+    border-radius: 30px;
+    border: none;
+    background: transparent;
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: color .3s ease;
+  }
+  .vt-btn.active{ color: #0b0d0d; }
+  .view-toggle{ position: fixed; }
+  .vt-thumb{
+    position:absolute;
+    top:3px; left:3px;
+    bottom:3px;
+    width: calc(50% - 3px);
+    background: var(--accent);
+    border-radius: 30px;
+    transition: transform .35s cubic-bezier(.76,0,.24,1);
+    z-index: 1;
+  }
+  .view-toggle[data-mode="grouped"] .vt-thumb{
+    transform: translateX(100%);
+  }
+
+  /* ---------- Grouped view ---------- */
+  .grouped-view{
+    display:none;
+    padding: 170px clamp(20px, 5vw, 56px) 110px;
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+  .grouped-view.active{ display:block; }
+
+  .group-section{ margin-bottom: 70px; }
+  .group-section:last-child{ margin-bottom: 0; }
+  .group-title{
+    display:flex;
+    align-items:baseline;
+    gap: 12px;
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 26px;
+  }
+  .group-title .group-count{
+    color: var(--text-faint);
+    letter-spacing: 0.04em;
+  }
+  .group-title::after{
+    content:"";
+    flex:1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  .card-grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 22px;
+  }
+  .g-card{
+    display:block;
+    text-decoration:none;
+    color: var(--text);
+    background: var(--bg-raised);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: border-color .25s ease, transform .25s ease;
+  }
+  .g-card:hover{ border-color: var(--accent-dim); transform: translateY(-3px); }
+  .g-thumb{
+    position:relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+  .g-thumb img{
+    width:100%; height:100%;
+    object-fit: cover;
+    filter: grayscale(1) contrast(0.9) brightness(0.85);
+    transform: scale(1.02);
+    transition: filter .5s ease, transform .5s ease;
+  }
+  .g-card:hover .g-thumb img{
+    filter: grayscale(0) contrast(1) brightness(1);
+    transform: scale(1.06);
+  }
+  .g-info{ padding: 16px 18px 20px; }
+  .g-year{
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .g-name{
+    font-family: var(--mono);
+    font-size: 16px;
+    margin: 0 0 10px 0;
+  }
+  .g-tags{ display:flex; gap:6px; flex-wrap:wrap; }
+
+  @media (max-width: 720px){
+    .view-toggle{ top: 82px; }
+    .grouped-view{ padding-top: 150px; }
+  }
+
+  /* ---------- Horizontal gallery ---------- */
+  .gallery{
+    display:flex;
+    align-items:center;
+    gap: clamp(24px, 4vw, 60px);
+    height: 100svh;
+    padding: 0 12vw;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 0 12vw;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .gallery::-webkit-scrollbar{ display:none; }
+
+  .t-panel{
+    position: relative;
+    flex: 0 0 auto;
+    width: min(78vw, 1100px);
+    height: 76svh;
+    scroll-snap-align: center;
+    border-radius: 6px;
+    overflow: visible;
+    cursor: pointer;
+  }
+
+  .media{
+    position:absolute;
+    inset:0;
+    border-radius: 6px;
+    overflow:hidden;
+  }
+  .media img{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit: cover;
+    -webkit-mask-image: radial-gradient(ellipse 72% 78% at 50% 50%, black 45%, transparent 92%);
+            mask-image: radial-gradient(ellipse 72% 78% at 50% 50%, black 45%, transparent 92%);
+  }
+  .media .photo{
+    filter: grayscale(1) blur(9px) contrast(0.85) brightness(0.85) saturate(0);
+    transform: scale(1.06); /* hides the soft blurred edge from the mask crop */
+    transition: filter 1.6s ease, transform 1.6s ease;
+  }
+  .t-panel.revealed .media .photo{
+    filter: grayscale(0) blur(0px) contrast(1) brightness(1) saturate(1);
+    transform: scale(1);
+  }
+
+  .t-overlay{
+    position:absolute;
+    left: 6%;
+    bottom: 8%;
+    z-index: 4;
+    max-width: 70%;
+    pointer-events:none;
+  }
+  .t-year{
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.8);
+  }
+  .t-name{
+    font-family: var(--mono);
+    font-size: clamp(22px, 3.4vw, 36px);
+    margin: 0 0 10px 0;
+    color: #f2f0ea;
+    text-shadow: 0 4px 18px rgba(0,0,0,0.75);
+  }
+  .t-tags{ display:flex; gap:8px; flex-wrap:wrap; }
+  .tag{
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: #f2f0ea;
+    background: rgba(11,13,13,0.5);
+    backdrop-filter: blur(3px);
+    border: 1px solid rgba(217,220,214,0.25);
+    padding: 4px 9px;
+    border-radius: 20px;
+    text-shadow: none;
+  }
+  .t-idx{
+    position:absolute;
+    top: 6%; right: 6%;
+    z-index: 4;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: rgba(217,220,214,0.7);
+    text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+  }
+  .t-view{
+    position:absolute;
+    top: 6%; left: 6%;
+    z-index: 4;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    color: #0b0d0d;
+    background: var(--accent);
+    padding: 6px 11px;
+    border-radius: 20px;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: opacity .25s ease, transform .25s ease;
+  }
+  .t-panel:hover .t-view{ opacity:1; transform: translateY(0); }
+
+  /* ---------- Ruler ---------- */
+  .ruler{
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    height: 78px;
+    z-index: 15;
+    background: linear-gradient(to top, rgba(11,13,13,0.95), rgba(11,13,13,0));
+    padding: 0 clamp(20px, 5vw, 56px);
+    display:flex;
+    align-items:flex-end;
+  }
+  .ruler-track{
+    position:relative;
+    display:flex;
+    align-items:flex-end;
+    width:100%;
+    height: 40px;
+    border-top: 1px solid var(--rule);
+  }
+  .tick{
+    flex: 1 1 0;
+    display:flex;
+    justify-content:flex-start;
+    align-items:flex-end;
+  }
+  .tick::before{
+    content:"";
+    width: 1px;
+    height: 8px;
+    background: var(--text-faint);
+  }
+  .tick.big::before{
+    height: 18px;
+    width: 1px;
+    background: var(--text-dim);
+  }
+  .tick.big{
+    position:relative;
+  }
+  .tick.big .yr{
+    position:absolute;
+    bottom: 22px;
+    left: 0;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--text-dim);
+    white-space:nowrap;
+  }
+  .playhead{
+    position:absolute;
+    bottom: 0;
+    top: -6px;
+    width: 1px;
+    background: var(--accent);
+    box-shadow: 0 0 8px rgba(232,163,61,0.7);
+    transition: left .08s linear;
+  }
+  .playhead::before{
+    content:"";
+    position:absolute;
+    top:-5px; left:50%;
+    transform: translateX(-50%);
+    width:7px; height:7px;
+    border-radius:50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px rgba(232,163,61,0.8);
+  }
+
+  @media (max-width: 720px){
+    .t-panel{ width: 90vw; height: 62svh; }
+    .gallery{ padding: 0 5vw; scroll-padding: 0 5vw; gap: 16px; }
+    .page-head{ top: 82px; }
+    .ruler{ height: 64px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-transition" id="pageTransition">
+  <div class="pt-label">LOADING</div>
+  <div class="pt-bar"></div>
+</div>
+<script src="transition.js"></script>
+
+<nav class="site-nav">
+  <a class="brand" href="index.html">Number<span>9</span>3852</a>
+  <div class="nav-right">
+    <a href="projects.html" class="is-active">PROJECTS</a>
+    <a href="about.html">ABOUT</a>
+    <a href="mailto:you@example.com">CONTACT</a>
+  </div>
+</nav>
+
+<div class="view-toggle" id="viewToggle" data-mode="timeline">
+  <button class="vt-btn active" data-mode="timeline">TIMELINE</button>
+  <button class="vt-btn" data-mode="grouped">GROUPED</button>
+  <span class="vt-thumb"></span>
+</div>
+
+<div class="gallery" id="gallery">
+
+  <div class="t-panel" data-href="project-1.html" data-category="Web Apps" data-year="2023" data-month="5">
+    <div class="t-idx">01 / 04</div>
+    <div class="t-view">VIEW PROJECT →</div>
+    <div class="media">
+      <img class="photo" src="https://picsum.photos/id/1035/1600/1000" alt="Project One preview">
+    </div>
+    <div class="t-overlay">
+      <div class="t-year">2023</div>
+      <h3 class="t-name">Project One</h3>
+      <div class="t-tags"><span class="tag">React</span><span class="tag">Node.js</span><span class="tag">PostgreSQL</span></div>
+    </div>
+  </div>
+
+  <div class="t-panel" data-href="project-2.html" data-category="Backend & APIs" data-year="2024" data-month="2">
+    <div class="t-idx">02 / 04</div>
+    <div class="t-view">VIEW PROJECT →</div>
+    <div class="media">
+      <img class="photo" src="https://picsum.photos/id/1025/1600/1000" alt="Project Two preview">
+    </div>
+    <div class="t-overlay">
+      <div class="t-year">2024</div>
+      <h3 class="t-name">Project Two</h3>
+      <div class="t-tags"><span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">Docker</span></div>
+    </div>
+  </div>
+
+  <div class="t-panel" data-href="project-3.html" data-category="Infrastructure & Systems" data-year="2025" data-month="8">
+    <div class="t-idx">03 / 04</div>
+    <div class="t-view">VIEW PROJECT →</div>
+    <div class="media">
+      <img class="photo" src="https://picsum.photos/id/1015/1600/1000" alt="Project Three preview">
+    </div>
+    <div class="t-overlay">
+      <div class="t-year">2025</div>
+      <h3 class="t-name">Project Three</h3>
+      <div class="t-tags"><span class="tag">Go</span><span class="tag">gRPC</span><span class="tag">AWS</span></div>
+    </div>
+  </div>
+
+  <div class="t-panel" data-href="project-4.html" data-category="Web Apps" data-year="2026" data-month="1">
+    <div class="t-idx">04 / 04</div>
+    <div class="t-view">VIEW PROJECT →</div>
+    <div class="media">
+      <img class="photo" src="https://picsum.photos/id/1005/1600/1000" alt="Project Four preview">
+    </div>
+    <div class="t-overlay">
+      <div class="t-year">2026</div>
+      <h3 class="t-name">Project Four</h3>
+      <div class="t-tags"><span class="tag">TypeScript</span><span class="tag">Next.js</span></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="grouped-view" id="groupedView"></div>
+
+<div class="ruler" id="ruler">
+  <div class="ruler-track" id="rulerTrack">
+    <div class="playhead" id="playhead"></div>
+  </div>
+</div>
+
+<script>
+  // ---------- Build the ruler: big ticks per year (labelled),
+  // small ticks per month (unlabelled) ----------
+  const rulerTrack = document.getElementById('rulerTrack');
+  const startYear = 2023;
+  const endYear = 2027; // one extra year of runway past the newest project
+  for (let y = startYear; y <= endYear; y++){
+    for (let m = 0; m < 12; m++){
+      if (y === endYear && m > 0) break; // stop right after the final year tick
+      const tick = document.createElement('div');
+      tick.className = 'tick' + (m === 0 ? ' big' : '');
+      if (m === 0){
+        const label = document.createElement('span');
+        label.className = 'yr';
+        label.textContent = y;
+        tick.appendChild(label);
+      }
+      rulerTrack.appendChild(tick);
+    }
+  }
+
+  // ---------- Sync the playhead with horizontal scroll progress ----------
+  const gallery = document.getElementById('gallery');
+  const playhead = document.getElementById('playhead');
+  function updatePlayhead(){
+    const max = gallery.scrollWidth - gallery.clientWidth;
+    const progress = max > 0 ? gallery.scrollLeft / max : 0;
+    const trackWidth = rulerTrack.clientWidth;
+    playhead.style.left = (progress * trackWidth) + 'px';
+  }
+  gallery.addEventListener('scroll', updatePlayhead, { passive: true });
+  window.addEventListener('resize', updatePlayhead);
+  updatePlayhead();
+
+  // ---------- Wheel / trackpad input pages through one project at a
+  // time, snapping the gallery (and the ruler playhead riding along
+  // with it) straight to the next or previous panel ----------
+  const panels = Array.from(document.querySelectorAll('.t-panel'));
+  function nearestIndex(){
+    const center = gallery.scrollLeft + gallery.clientWidth / 2;
+    let best = 0, bestDist = Infinity;
+    panels.forEach((p, i) => {
+      const pCenter = p.offsetLeft + p.offsetWidth / 2;
+      const dist = Math.abs(pCenter - center);
+      if (dist < bestDist){ bestDist = dist; best = i; }
+    });
+    return best;
+  }
+  let currentIndex = 0;
+  function goToIndex(i){
+    currentIndex = Math.max(0, Math.min(panels.length - 1, i));
+    panels[currentIndex].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+  }
+
+  let wheelLocked = false;
+  gallery.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    if (wheelLocked) return;
+    const delta = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+    if (Math.abs(delta) < 8) return;
+    wheelLocked = true;
+    currentIndex = nearestIndex();
+    goToIndex(currentIndex + (delta > 0 ? 1 : -1));
+    setTimeout(() => { wheelLocked = false; }, 550);
+  }, { passive: false });
+
+  // ---------- Click a panel: pause briefly, fade slowly from blurred
+  // grayscale to full color, then navigate once it's fully revealed ----------
+  panels.forEach(panel => {
+    panel.addEventListener('click', (e) => {
+      if (panel.classList.contains('revealed')) return;
+      e.preventDefault();
+      setTimeout(() => {
+        panel.classList.add('revealed');
+        setTimeout(() => {
+          window.location.href = panel.dataset.href;
+        }, 1700); // matches the 1.6s filter transition, plus a beat
+      }, 350); // brief pause before the reveal begins
+    });
+  });
+
+  // ---------- Build the grouped view from the same panel data,
+  // clustered by data-category, in the order categories first appear ----------
+  const groupedView = document.getElementById('groupedView');
+  const groups = new Map();
+  panels.forEach(panel => {
+    const cat = panel.dataset.category || 'Other';
+    if (!groups.has(cat)) groups.set(cat, []);
+    groups.get(cat).push({
+      href: panel.dataset.href,
+      year: panel.dataset.year,
+      name: panel.querySelector('.t-name').textContent,
+      tagsHTML: panel.querySelector('.t-tags').innerHTML,
+      img: panel.querySelector('.media img').getAttribute('src'),
+      alt: panel.querySelector('.media img').getAttribute('alt'),
+    });
+  });
+
+  groups.forEach((items, cat) => {
+    const section = document.createElement('div');
+    section.className = 'group-section';
+
+    const title = document.createElement('div');
+    title.className = 'group-title';
+    title.innerHTML = `${cat} <span class="group-count">(${items.length})</span>`;
+    section.appendChild(title);
+
+    const grid = document.createElement('div');
+    grid.className = 'card-grid';
+    items.forEach(item => {
+      const card = document.createElement('a');
+      card.className = 'g-card';
+      card.href = item.href;
+      card.setAttribute('data-no-transition', 'true');
+      card.innerHTML = `
+        <div class="g-thumb"><img src="${item.img}" alt="${item.alt}" loading="lazy"></div>
+        <div class="g-info">
+          <div class="g-year">${item.year}</div>
+          <h3 class="g-name">${item.name}</h3>
+          <div class="g-tags">${item.tagsHTML}</div>
+        </div>`;
+      grid.appendChild(card);
+    });
+    section.appendChild(grid);
+    groupedView.appendChild(section);
+  });
+
+  // ---------- Toggle between timeline and grouped modes ----------
+  const viewToggle = document.getElementById('viewToggle');
+  const ruler = document.getElementById('ruler');
+  const pageHint = document.getElementById('pageHint');
+  const vtButtons = viewToggle.querySelectorAll('.vt-btn');
+
+  function setMode(mode){
+    viewToggle.dataset.mode = mode;
+    vtButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.mode === mode));
+
+    if (mode === 'grouped'){
+      gallery.style.display = 'none';
+      ruler.style.display = 'none';
+      groupedView.classList.add('active');
+      pageHint.textContent = 'organized by project type';
+    } else {
+      gallery.style.display = 'flex';
+      ruler.style.display = 'flex';
+      groupedView.classList.remove('active');
+      pageHint.textContent = 'scroll to move through time · click a frame to open it';
+      updatePlayhead();
+    }
+  }
+
+  vtButtons.forEach(btn => {
+    btn.addEventListener('click', () => setMode(btn.dataset.mode));
+  });
+</script>
+
+</body>
+</html>

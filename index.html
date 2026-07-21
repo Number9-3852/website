@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nima Ghalaenovi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=Special+Elite&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .hero{
+    position: relative;
+    height: 100svh;
+    min-height: 560px;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    justify-content:center;
+    padding: 0 clamp(20px, 5vw, 64px);
+    overflow:hidden;
+  }
+  #decodeCanvas{ position:absolute; inset:0; width:100%; height:100%; display:block; }
+  .hero-content{ position:relative; z-index: 2; pointer-events:none; }
+  .hero-eyebrow{
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    margin-bottom: 18px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .hero-eyebrow::before{
+    content:""; width:8px; height:8px;
+    background: var(--accent); border-radius:50%;
+    box-shadow: 0 0 10px var(--accent);
+  }
+  h1.hero-name{
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: clamp(40px, 8vw, 92px);
+    line-height: 1.02;
+    margin: 0 0 8px 0;
+    text-shadow: 0 0 40px rgba(0,0,0,0.6);
+  }
+  .hero-role{
+    font-size: clamp(18px, 2.4vw, 26px);
+    color: var(--text-dim);
+    max-width: 620px;
+    margin: 0 0 30px 0;
+    text-shadow: 0 0 30px rgba(0,0,0,0.7);
+  }
+  .hero-cta{ pointer-events:auto; display:flex; gap:16px; flex-wrap: wrap; }
+  .scroll-hint{
+    position:absolute;
+    bottom: 28px; left: clamp(20px, 5vw, 64px);
+    z-index:2;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-faint);
+    letter-spacing: 0.1em;
+    display:flex; align-items:center; gap: 8px;
+  }
+  
+  .clock{
+    position:absolute; top:28px; left:50%; transform:translateX(-50%);
+    z-index:2;
+    font-family: var(--mono);
+    font-size: 15px;
+    letter-spacing: 0.1em;
+    color: var(--clock);
+  }
+</style>
+</head>
+<body>
+
+<div class="page-transition" id="pageTransition">
+  <div class="pt-label">LOADING</div>
+  <div class="pt-bar"></div>
+</div>
+<script src="transition.js"></script>
+
+<nav class="site-nav">
+  <a class="brand" href="index.html">Number<span>9</span>3852</a>
+  <div class="nav-right">
+    <a href="projects.html">PROJECTS</a>
+    <a href="about.html">ABOUT</a>
+    <a href="mailto:you@example.com">CONTACT</a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <canvas id="decodeCanvas" aria-hidden="true"></canvas>
+  <div class="clock" id="clock"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">AVAILABLE FOR WORK</div>
+    <h1 class="hero-name">Your Name</h1>
+    <p class="hero-role">Software engineer building fast, reliable systems — from backend infrastructure to the interfaces on top of it.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="projects.html">View projects</a>
+      <a class="btn btn-ghost" href="about.html">About me</a>
+    </div>
+  </div>
+</header>
+
+<script src="decode-bg.js"></script>
+<script>
+initDecodeField('.hero');
+
+  function updateClock(){
+    const el = document.getElementById('clock');
+    if(!el) return;
+    const d = new Date();
+    let h = d.getHours();
+    const m = d.getMinutes().toString().padStart(2,'0');
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    h = h % 12; if (h === 0) h = 12;
+    el.textContent = `${h}:${m} ${ampm}`;
+  }
+  updateClock();
+  setInterval(updateClock, 1000 * 15);
+</script>
+
+</body>
+</html>

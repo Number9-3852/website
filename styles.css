@@ -1,0 +1,200 @@
+/* ===================================================================
+   Shared tokens & base
+=================================================================== */
+:root{
+  --clock: #57ae51;
+  --bg: #0b0d0d;
+  --bg-raised: #121514;
+  --text: #d9dcd6;
+  --text-dim: #7a8480;
+  --text-faint: #454b47;
+  --accent: #3dc824;
+  --accent-dim: #159709;
+  --rule: #222624;
+  --mono: 'IBM Plex Mono', 'SF Mono', monospace;
+  --sans: 'IBM Plex Sans', system-ui, sans-serif;
+  --type: 'Special Elite', 'IBM Plex Mono', monospace;
+}
+
+*{ box-sizing: border-box; }
+html{ scroll-behavior: smooth; }
+body{
+  margin:0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+::selection{ background: var(--accent); color: #0b0d0d; }
+a{ color: inherit; }
+img{ max-width:100%; display:block; }
+
+/* ===================================================================
+   Nav — logo top-left, PROJECTS / ABOUT / CONTACT clustered top-right
+=================================================================== */
+.site-nav{
+  position: fixed;
+  top:0; left:0; right:0;
+  z-index: 100;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding: 22px clamp(20px, 5vw, 56px);
+  font-family: var(--mono);
+  font-size: 12.5px;
+  letter-spacing: 0.08em;
+  background: linear-gradient(to bottom, rgba(11,13,13,0.92), transparent);
+}
+.site-nav .brand{
+  text-decoration:none;
+  color: var(--text);
+  font-weight: 600;
+}
+.site-nav .brand span{ color: var(--accent); }
+.site-nav .nav-right{
+  display:flex;
+  align-items:center;
+  gap: 26px;
+}
+.site-nav .nav-right a{
+  text-decoration:none;
+  color: var(--text-dim);
+  position:relative;
+  padding-bottom: 3px;
+  transition: color .2s ease;
+}
+.site-nav .nav-right a::after{
+  content:"";
+  position:absolute;
+  left:0; right:100%;
+  bottom:0;
+  height:1px;
+  background: var(--accent);
+  transition: right .25s ease;
+}
+.site-nav .nav-right a:hover,
+.site-nav .nav-right a.is-active{ color: var(--accent); }
+.site-nav .nav-right a:hover::after,
+.site-nav .nav-right a.is-active::after{ right:0; }
+
+@media (max-width: 640px){
+  .site-nav .nav-right{ gap: 16px; font-size: 11px; }
+}
+
+/* ===================================================================
+   Footer / contact block — reused at the bottom of every page
+=================================================================== */
+.site-footer{
+  border-top: 1px solid var(--rule);
+  padding: 70px clamp(20px, 5vw, 56px) 34px;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+.site-footer .footer-title{
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: clamp(26px, 4.5vw, 44px);
+  margin: 0 0 18px 0;
+}
+.site-footer .footer-title span{ color: var(--accent); }
+.site-footer .footer-links{
+  display:flex;
+  gap: 24px;
+  flex-wrap:wrap;
+  font-family: var(--mono);
+  font-size: 13px;
+  margin-bottom: 50px;
+}
+.site-footer .footer-links a{
+  text-decoration:none;
+  color: var(--text-dim);
+  border-bottom: 1px solid var(--text-faint);
+  padding-bottom: 2px;
+  transition: color .2s ease, border-color .2s ease;
+}
+.site-footer .footer-links a:hover{ color: var(--accent); border-color: var(--accent); }
+.site-footer .meta-row{
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-faint);
+}
+
+/* ===================================================================
+   Buttons (shared)
+=================================================================== */
+.btn{
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing:0.03em;
+  padding: 13px 22px;
+  border-radius: 3px;
+  text-decoration:none;
+  transition: all .2s ease;
+  border: 1px solid var(--rule);
+  display:inline-block;
+}
+.btn-primary{
+  background: var(--accent);
+  color: #0b0d0d;
+  border-color: var(--accent);
+  font-weight: 600;
+}
+.btn-primary:hover{ background: #f2b658; }
+.btn-ghost{
+  background: rgba(18,21,20,0.6);
+  color: var(--text);
+}
+.btn-ghost:hover{ border-color: var(--accent); color: var(--accent); }
+
+/* ===================================================================
+   Page transition overlay — a curtain wipe played between pages
+=================================================================== */
+.page-transition{
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--bg);
+  display:flex;
+  flex-direction: column;
+  align-items:center;
+  justify-content:center;
+  gap: 16px;
+  transform: translateY(0);
+  transition: transform .65s cubic-bezier(.76,0,.24,1);
+  pointer-events: none;
+}
+.page-transition.is-open{ transform: translateY(-100%); }
+.page-transition .pt-label{
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+}
+.page-transition .pt-bar{
+  width: 140px;
+  height: 1px;
+  background: var(--rule);
+  position: relative;
+  overflow: hidden;
+}
+.page-transition .pt-bar::after{
+  content: "";
+  position: absolute;
+  left: -40%; top:0; bottom:0;
+  width: 40%;
+  background: var(--accent);
+  box-shadow: 0 0 8px rgba(232,163,61,0.7);
+  animation: pt-sweep 1.1s ease-in-out infinite;
+}
+@keyframes pt-sweep{
+  0%{ left: -40%; }
+  100%{ left: 100%; }
+}
+@media (prefers-reduced-motion: reduce){
+  .page-transition{ transition: none; }
+  .page-transition .pt-bar::after{ animation: none; }
+}
