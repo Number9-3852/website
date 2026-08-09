@@ -357,8 +357,21 @@
 
 <div class="gallery" id="gallery">
 
+  <div class="t-panel" data-href="project-6.html" data-category="Games" data-year="2022" data-month="5">
+    <div class="t-idx">01 / 06</div>
+    <div class="t-view">VIEW PROJECT →</div>
+    <div class="media">
+      <img class="photo" src="img/tank game/tank-game-thumb.png" alt="Tank maze game preview">
+    </div>
+    <div class="t-overlay">
+      <div class="t-year">2022</div>
+      <h3 class="t-name">Tank vs. Pathfinder</h3>
+      <div class="t-tags"><span class="tag">Python</span><span class="tag">Pygame</span><span class="tag">A* Pathfinding</span></div>
+    </div>
+  </div>
+
   <div class="t-panel" data-href="project-1.html" data-category="Web Apps" data-year="2023" data-month="5">
-    <div class="t-idx">01 / 04</div>
+    <div class="t-idx">02 / 06</div>
     <div class="t-view">VIEW PROJECT →</div>
     <div class="media">
       <img class="photo" src="https://picsum.photos/id/1035/1600/1000" alt="Project One preview">
@@ -371,7 +384,7 @@
   </div>
 
   <div class="t-panel" data-href="project-2.html" data-category="Backend & APIs" data-year="2024" data-month="2">
-    <div class="t-idx">02 / 04</div>
+    <div class="t-idx">03 / 06</div>
     <div class="t-view">VIEW PROJECT →</div>
     <div class="media">
       <img class="photo" src="https://picsum.photos/id/1025/1600/1000" alt="Project Two preview">
@@ -384,7 +397,7 @@
   </div>
 
   <div class="t-panel" data-href="project-3.html" data-category="Infrastructure & Systems" data-year="2025" data-month="8">
-    <div class="t-idx">03 / 04</div>
+    <div class="t-idx">04 / 06</div>
     <div class="t-view">VIEW PROJECT →</div>
     <div class="media">
       <img class="photo" src="https://picsum.photos/id/1015/1600/1000" alt="Project Three preview">
@@ -397,7 +410,7 @@
   </div>
 
   <div class="t-panel" data-href="project-4.html" data-category="Web Apps" data-year="2026" data-month="1">
-    <div class="t-idx">04 / 04</div>
+    <div class="t-idx">05 / 06</div>
     <div class="t-view">VIEW PROJECT →</div>
     <div class="media">
       <img class="photo" src="https://picsum.photos/id/1005/1600/1000" alt="Project Four preview">
@@ -406,6 +419,19 @@
       <div class="t-year">2026</div>
       <h3 class="t-name">Project Four</h3>
       <div class="t-tags"><span class="tag">TypeScript</span><span class="tag">Next.js</span></div>
+    </div>
+  </div>
+
+  <div class="t-panel" data-href="project-5.html" data-category="Hardware &amp; Embedded" data-year="2026" data-month="7">
+    <div class="t-idx">06 / 06</div>
+    <div class="t-view">VIEW PROJECT →</div>
+    <div class="media">
+      <img class="photo" src="img/project 5/main.png" alt="Dual-Rail Power Supply Board preview">
+    </div>
+    <div class="t-overlay">
+      <div class="t-year">2026</div>
+      <h3 class="t-name">Dual-Rail Power Supply Board</h3>
+      <div class="t-tags"><span class="tag">KiCad</span><span class="tag">Power Electronics</span><span class="tag">PCB Design</span></div>
     </div>
   </div>
 
@@ -420,43 +446,91 @@
 </div>
 
 <script>
-  // ---------- Build the ruler: big ticks per year (labelled),
-  // small ticks per month (unlabelled) ----------
+  // ---------- Build the ruler: a big labelled tick at the start of each
+  // year, followed by 12 small unlabelled ticks for Jan through Dec.
+  // Each tick is keyed by date so panels can be pinned to their real month. ----------
   const rulerTrack = document.getElementById('rulerTrack');
-  const startYear = 2023;
+  const startYear = 2021;
   const endYear = 2027; // one extra year of runway past the newest project
+  const ticksByKey = new Map(); // "year-month" (month 0 = the year's big tick)
+
   for (let y = startYear; y <= endYear; y++){
-    for (let m = 0; m < 12; m++){
-      if (y === endYear && m > 0) break; // stop right after the final year tick
+    const big = document.createElement('div');
+    big.className = 'tick big';
+    const label = document.createElement('span');
+    label.className = 'yr';
+    label.textContent = y;
+    big.appendChild(label);
+    rulerTrack.appendChild(big);
+    ticksByKey.set(`${y}-0`, big);
+
+    if (y === endYear) break; // no trailing months after the final year marker
+
+    for (let m = 1; m <= 12; m++){
       const tick = document.createElement('div');
-      tick.className = 'tick' + (m === 0 ? ' big' : '');
-      if (m === 0){
-        const label = document.createElement('span');
-        label.className = 'yr';
-        label.textContent = y;
-        tick.appendChild(label);
-      }
+      tick.className = 'tick';
       rulerTrack.appendChild(tick);
+      ticksByKey.set(`${y}-${m}`, tick);
     }
   }
 
-  // ---------- Sync the playhead with horizontal scroll progress ----------
+  // ---------- Pin each project to the ruler position of its real date,
+  // and interpolate the playhead between those pinned points as the
+  // gallery scrolls — rather than spreading panels evenly across the
+  // whole ruler regardless of date. ----------
   const gallery = document.getElementById('gallery');
   const playhead = document.getElementById('playhead');
+  const panels = Array.from(document.querySelectorAll('.t-panel'));
+
+  function tickCenterX(year, month){
+    const tickEl = ticksByKey.get(`${year}-${month}`);
+    if (!tickEl) return 0;
+    const trackRect = rulerTrack.getBoundingClientRect();
+    const tickRect = tickEl.getBoundingClientRect();
+    return (tickRect.left - trackRect.left) + tickRect.width / 2;
+  }
+
+  let panelTargets = [];
+  let panelOffsets = [];
+  function measurePositions(){
+    panelTargets = panels.map(p => tickCenterX(+p.dataset.year, +p.dataset.month));
+    // The gallery uses scroll-snap-align: center, so a panel's resting
+    // scrollLeft is where its *center* lines up with the viewport center —
+    // not its raw offsetLeft. Match that here or the playhead drifts
+    // further off with every panel after the first.
+    panelOffsets = panels.map(p => p.offsetLeft + p.offsetWidth / 2 - gallery.clientWidth / 2);
+  }
+  measurePositions();
+
   function updatePlayhead(){
-    const max = gallery.scrollWidth - gallery.clientWidth;
-    const progress = max > 0 ? gallery.scrollLeft / max : 0;
-    const trackWidth = rulerTrack.clientWidth;
-    playhead.style.left = (progress * trackWidth) + 'px';
+    const s = gallery.scrollLeft;
+    const last = panels.length - 1;
+
+    if (s <= panelOffsets[0]){
+      playhead.style.left = panelTargets[0] + 'px';
+      return;
+    }
+    if (s >= panelOffsets[last]){
+      playhead.style.left = panelTargets[last] + 'px';
+      return;
+    }
+    for (let i = 0; i < last; i++){
+      if (s >= panelOffsets[i] && s <= panelOffsets[i + 1]){
+        const span = panelOffsets[i + 1] - panelOffsets[i];
+        const frac = span > 0 ? (s - panelOffsets[i]) / span : 0;
+        const x = panelTargets[i] + (panelTargets[i + 1] - panelTargets[i]) * frac;
+        playhead.style.left = x + 'px';
+        return;
+      }
+    }
   }
   gallery.addEventListener('scroll', updatePlayhead, { passive: true });
-  window.addEventListener('resize', updatePlayhead);
+  window.addEventListener('resize', () => { measurePositions(); updatePlayhead(); });
   updatePlayhead();
 
   // ---------- Wheel / trackpad input pages through one project at a
   // time, snapping the gallery (and the ruler playhead riding along
   // with it) straight to the next or previous panel ----------
-  const panels = Array.from(document.querySelectorAll('.t-panel'));
   function nearestIndex(){
     const center = gallery.scrollLeft + gallery.clientWidth / 2;
     let best = 0, bestDist = Infinity;

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dual-Rail Power Supply Board — Your Name</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=Special+Elite&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+.p-hero{
+  padding: 150px clamp(20px, 5vw, 56px) 0;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+.back-link{
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom: 30px;
+  transition: color .2s ease;
+}
+.back-link:hover{ color: var(--accent); }
+.p-eyebrow{
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--accent);
+  letter-spacing: 0.12em;
+  margin-bottom: 14px;
+}
+.p-eyebrow::before{ content:"// project 05 "; color: var(--text-faint); }
+.p-title{
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: clamp(32px, 6vw, 60px);
+  margin: 0 0 20px 0;
+}
+.p-tags{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom: 40px; }
+.tag{
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  border: 1px solid var(--rule);
+  padding: 4px 9px;
+  border-radius: 20px;
+}
+.p-image{
+  width:100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 5vw, 56px);
+}
+.p-image img{
+  width:100%;
+  border-radius: 4px;
+  border: 1px solid var(--rule);
+  background: #fff;
+}
+.p-body{
+  max-width: 780px;
+  margin: 60px auto 0;
+  padding: 0 clamp(20px, 5vw, 56px);
+}
+.p-body h2{
+  font-family: var(--mono);
+  font-size: 18px;
+  margin: 40px 0 14px 0;
+}
+.p-body h2:first-child{ margin-top:0; }
+.p-body p{
+  color: var(--text-dim);
+  font-size: 15.5px;
+  line-height: 1.8;
+  margin: 0 0 16px 0;
+}
+.p-body figure{
+  margin: 24px 0;
+}
+.p-body figure img{
+  width:100%;
+  border-radius: 4px;
+  border: 1px solid var(--rule);
+  background: #fff;
+}
+.p-body figcaption{
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--text-faint);
+  margin-top: 8px;
+}
+.spec-table{
+  width:100%;
+  border-collapse: collapse;
+  margin: 10px 0 20px;
+  font-size: 14px;
+}
+.spec-table th, .spec-table td{
+  text-align: left;
+  padding: 9px 10px;
+  border-bottom: 1px solid var(--rule);
+}
+.spec-table th{
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--text-faint);
+  font-weight: 500;
+}
+.spec-table td{ color: var(--text-dim); }
+.spec-table td:first-child{ color: var(--text); font-family: var(--mono); font-size: 13px; }
+.p-links{
+  display:flex; gap: 16px; margin: 34px 0 100px;
+  max-width: 780px;
+  padding: 0 clamp(20px, 5vw, 56px);
+  margin-left:auto; margin-right:auto;
+}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a class="brand" href="index.html">Number<span>9</span>3852</a>
+  <div class="nav-right">
+    <a href="projects.html" class="is-active">PROJECTS</a>
+    <a href="about.html">ABOUT</a>
+    <a href="mailto:you@example.com">CONTACT</a>
+  </div>
+</nav>
+
+<div class="p-hero">
+  <a class="back-link" href="projects.html">← Back to projects</a>
+  <div class="p-eyebrow">index</div>
+  <h1 class="p-title">Dual-Rail Power Supply Board</h1>
+  <div class="p-tags"><span class="tag">KiCad</span><span class="tag">Power Electronics</span><span class="tag">PCB Design</span></div>
+</div>
+
+<div class="p-image">
+  <img src="img/project 5/power-board-pcb-layout.png" alt="PCB layout of the power supply board in KiCad">
+</div>
+
+<div class="p-body">
+
+<h2>Overview</h2>
+<p>A small 2-layer PCB that takes a single 12V input and breaks it out into regulated 5V and 3.3V rails. I designed it to power a robotics project that needed three different voltage domains at once: 12V for a DC motor, 5V for servo motors, and 3.3V for sensors and the microcontroller — so instead of juggling three separate supplies on the bench, everything now runs off one 12V source through this board.</p>
+
+<h2>The problem</h2>
+<p>The rest of the project had power requirements that didn't share a common rail: a 12V DC motor for actuation, 5V-logic servos, and a 3.3V microcontroller and sensor suite. I needed something compact and efficient enough to sit on the robot itself, not a wall of bench supplies, and reliable enough that a noisy motor rail wouldn't corrupt the sensor readings on the 3.3V side.</p>
+
+<h2>What I built</h2>
+<p>The 12V input feeds a <strong>TPS54360</strong> synchronous buck converter (U1) that steps it down to 5V. The output feedback divider (R4/R5) sets the regulation point, R6 and the RT/CLK pin set the switching frequency, and an LC output filter (L1, 8.2µH, plus the C6/C7 output capacitor bank) keeps ripple in check. A resistor divider off VIN (R1/R2/R3) sets the enable/UVLO threshold so the converter stays off until the input is within a safe range, and a bootstrap capacitor (C5) drives the high-side switch. A Schottky diode (D1) sits across the switch node for extra protection during transients.</p>
+<figure>
+  <img src="img/project 5/power-board-schematic.png" alt="Schematic of the buck converter and LDO stages">
+  <figcaption>Schematic — TPS54360 buck stage (12V → 5V) feeding an AMS1117-3.3 LDO (5V → 3.3V)</figcaption>
+</figure>
+<p>The regulated 5V rail is broken out directly for the servos, and also feeds an <strong>AMS1117-3.3</strong> linear regulator (U2) to derive the 3.3V rail for the microcontroller and sensors. Using the switching regulator's 5V output as the LDO's input — rather than dropping straight from 12V to 3.3V linearly — keeps the LDO's dropout losses small since it's only shedding 1.7V instead of 8.7V.</p>
+<p>Layout-wise, the board is a compact 2-layer design with the three connectors (12V in, 5V out, 3.3V out) as screw terminals along the edges, keeping the switching node and inductor loop tight to minimize EMI.</p>
+
+<h2>Technical details</h2>
+<table class="spec-table">
+  <tr><th>Parameter</th><th>Value</th></tr>
+  <tr><td>Input</td><td>12V DC</td></tr>
+  <tr><td>Output 1</td><td>5V (TPS54360 synchronous buck)</td></tr>
+  <tr><td>Output 2</td><td>3.3V (AMS1117-3.3 LDO, fed from the 5V rail)</td></tr>
+  <tr><td>Design tool</td><td>KiCad</td></tr>
+  <tr><td>Key ICs</td><td>TI TPS54360DDA, AMS1117-3.3</td></tr>
+  <tr><td>Board</td><td>2-layer PCB, screw-terminal I/O</td></tr>
+</table>
+
+<figure>
+  <img src="img/project 5/main.png" >
+</figure>
+
+<h2>Outcome</h2>
+<p>The board now sits between the 12V supply and the rest of the robotics project, giving the motor, servos, and control electronics each a clean, appropriately-regulated rail from a single input — no more running separate bench supplies for testing.</p>
+
+</div>
+
+<div class="p-links">
+  <a class="btn btn-primary" href="https://github.com/Number9-3852/power-control" target="_blank" rel="noopener">Source ↗</a>
+  <a class="btn btn-ghost" href="https://github.com/Number9-3852/power-control/blob/main/sources" target="_blank" rel="noopener">Datasheets ↗</a>
+</div>
+
+</body>
+</html>

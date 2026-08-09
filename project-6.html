@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tank vs. Pathfinder — Your Name</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=Special+Elite&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+.p-hero{
+  padding: 150px clamp(20px, 5vw, 56px) 0;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+.back-link{
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom: 30px;
+  transition: color .2s ease;
+}
+.back-link:hover{ color: var(--accent); }
+.p-eyebrow{
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--accent);
+  letter-spacing: 0.12em;
+  margin-bottom: 14px;
+}
+.p-eyebrow::before{ content:"// project 06 "; color: var(--text-faint); }
+.p-title{
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: clamp(32px, 6vw, 60px);
+  margin: 0 0 20px 0;
+}
+.p-tags{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom: 40px; }
+.tag{
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  border: 1px solid var(--rule);
+  padding: 4px 9px;
+  border-radius: 20px;
+}
+
+/* ---------- Playable game panel ---------- */
+.p-play{
+  width:100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 5vw, 56px);
+}
+.play-frame{
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #000;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.play-frame iframe{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  border:0;
+}
+.play-cover{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap: 18px;
+  background: var(--bg-raised);
+  cursor:pointer;
+  text-align:center;
+  padding: 20px;
+}
+.play-cover img{
+  width: 46%;
+  max-width: 320px;
+  border-radius: 3px;
+  opacity: 0.55;
+  filter: grayscale(0.4);
+}
+.play-btn{
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: #0b0d0d;
+  background: var(--accent);
+  padding: 12px 26px;
+  border-radius: 30px;
+  border: none;
+}
+.play-hint{
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-faint);
+}
+.play-caption{
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--text-faint);
+  margin-top: 12px;
+  text-align:center;
+}
+.controls-row{
+  display:flex;
+  gap: 10px;
+  flex-wrap:wrap;
+  justify-content:center;
+  margin-top: 16px;
+}
+.ctrl-chip{
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  border: 1px solid var(--rule);
+  padding: 5px 11px;
+  border-radius: 20px;
+}
+.ctrl-chip b{ color: var(--accent); font-weight: 600; }
+
+.p-body{
+  max-width: 780px;
+  margin: 60px auto 0;
+  padding: 0 clamp(20px, 5vw, 56px);
+}
+.p-body h2{
+  font-family: var(--mono);
+  font-size: 18px;
+  margin: 40px 0 14px 0;
+}
+.p-body h2:first-child{ margin-top:0; }
+.p-body p{
+  color: var(--text-dim);
+  font-size: 15.5px;
+  line-height: 1.8;
+  margin: 0 0 16px 0;
+}
+.spec-table{
+  width:100%;
+  border-collapse: collapse;
+  margin: 10px 0 20px;
+  font-size: 14px;
+}
+.spec-table th, .spec-table td{
+  text-align: left;
+  padding: 9px 10px;
+  border-bottom: 1px solid var(--rule);
+}
+.spec-table th{
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--text-faint);
+  font-weight: 500;
+}
+.spec-table td{ color: var(--text-dim); }
+.spec-table td:first-child{ color: var(--text); font-family: var(--mono); font-size: 13px; }
+.p-links{
+  display:flex; gap: 16px; margin: 34px 0 100px;
+  max-width: 780px;
+  padding: 0 clamp(20px, 5vw, 56px);
+  margin-left:auto; margin-right:auto;
+}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a class="brand" href="index.html">Number<span>9</span>3852</a>
+  <div class="nav-right">
+    <a href="projects.html" class="is-active">PROJECTS</a>
+    <a href="about.html">ABOUT</a>
+    <a href="mailto:you@example.com">CONTACT</a>
+  </div>
+</nav>
+
+<div class="p-hero">
+  <a class="back-link" href="projects.html">← Back to projects</a>
+  <div class="p-eyebrow">index</div>
+  <h1 class="p-title">Tank vs. Pathfinder</h1>
+  <div class="p-tags"><span class="tag">Python</span><span class="tag">Pygame</span><span class="tag">A* Pathfinding</span></div>
+</div>
+
+<div class="p-play">
+  <div class="play-frame" id="playFrame">
+    <div class="play-cover" id="playCover">
+      <img src="img/tank game/tank-game-thumb.png" alt="Maze layout preview">
+      <button class="play-btn" id="playBtn">▶ PLAY</button>
+      <div class="play-hint">loads a Python interpreter in your browser (WebAssembly) — first load takes a few seconds</div>
+    </div>
+  </div>
+  <div class="controls-row">
+    <span class="ctrl-chip"><b>WASD</b> move</span>
+    <span class="ctrl-chip"><b>Mouse click</b> shoot toward cursor</span>
+    <span class="ctrl-chip">Round ends at 30s — <b>Start Game</b> to play again</span>
+  </div>
+  <div class="play-caption">Runs entirely client-side via pygbag — the exact same main.py that runs on desktop, compiled to WebAssembly, no server involved.</div>
+</div>
+
+<div class="p-body">
+
+<h2>Overview</h2>
+<p>A top-down maze shooter built from scratch in Python with Pygame. You control a tank navigating a procedurally-rendered maze while an autonomous "attacker" hunts you down using real A* pathfinding — it recalculates a route to your position every couple of seconds, so it actually chases you through the maze rather than beelining through walls.</p>
+
+<h2>The problem</h2>
+<p>I wanted to build something that felt less like a toy and more like an actual game loop: real collision detection against maze geometry, an enemy with pathing intelligence instead of scripted movement, and a shooting mechanic with two-way projectile collision — all without a game engine, just Pygame primitives.</p>
+
+<h2>What I built</h2>
+<p>The maze itself is generated from a small bitmap (<code>1.png</code>) — each pixel maps to a 25×25px tile, and black pixels become wall rects, so the level layout is literally paintable as an image. The player tank moves on WASD with rect-based collision against every wall tile, and firing spawns a bullet that travels toward the mouse cursor with real vector math.</p>
+<p>The "attacker" enemy uses the <code>pathfinding</code> library's A* implementation over a grid built from the same maze data. Every 60 frames it recalculates a path from its current tile to the tank's tile, converts that path into a sequence of waypoints, and steers toward them one at a time — so it genuinely routes around walls rather than just moving in a straight line. When it gets within range of the tank it fires back, and bullets from both sides are checked against walls and against each other.</p>
+
+        <h2>Technical details</h2>
+<table class="spec-table">
+  <tr><th>Parameter</th><th>Value</th></tr>
+  <tr><td>Engine</td><td>Pygame</td></tr>
+  <tr><td>Enemy AI</td><td>A* search via the <code>pathfinding</code> library, recalculated periodically</td></tr>
+  <tr><td>Level data</td><td>Bitmap-driven maze (pixel colour → wall tile)</td></tr>
+  <tr><td>Round length</td><td>30 seconds, then a score screen with Start/Quit</td></tr>
+  <tr><td>Web build</td><td>Compiled to WebAssembly with pygbag — runs client-side, no backend</td></tr>
+  <tr><td>Controls</td><td>WASD to move, click to shoot</td></tr>
+</table>
+
+<h2>Outcome</h2>
+<p>A fully playable maze shooter with real pathfinding-driven AI, running directly in the browser off the same source file I use locally — no rewrite into JavaScript required.</p>
+
+</div>
+
+<div class="p-links">
+  <a class="btn btn-primary" href="game/tank game/index.html" target="_blank" rel="noopener">Play fullscreen ↗</a>
+  <a class="btn btn-ghost" href="#" target="_blank" rel="noopener">Source ↗</a>
+</div>
+
+<script>
+  document.getElementById('playCover').addEventListener('click', function () {
+    var frame = document.getElementById('playFrame');
+    var iframe = document.createElement('iframe');
+    iframe.src = 'game/tank game/index.html';
+    iframe.allow = 'autoplay';
+    frame.innerHTML = '';
+    frame.appendChild(iframe);
+  });
+</script>
+
+</body>
+</html>
