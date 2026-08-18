@@ -29,6 +29,8 @@ body{
 a{ color: inherit; }
 img{ max-width:100%; display:block; }
 
+
+
 /* ===================================================================
    Nav — logo top-left, PROJECTS / ABOUT / CONTACT clustered top-right
 =================================================================== */
@@ -143,7 +145,7 @@ img{ max-width:100%; display:block; }
   border-color: var(--accent);
   font-weight: 600;
 }
-.btn-primary:hover{ background: #f2b658; }
+.btn-primary:hover{ background: #159709; }
 .btn-ghost{
   background: rgba(18,21,20,0.6);
   color: var(--text);
