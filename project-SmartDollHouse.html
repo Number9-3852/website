@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Doll House — Your Name</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=Special+Elite&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+.p-hero{
+  padding: 150px clamp(20px, 5vw, 56px) 0;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+.back-link{
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom: 30px;
+  transition: color .2s ease;
+}
+.back-link:hover{ color: var(--accent); }
+.p-eyebrow{
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--accent);
+  letter-spacing: 0.12em;
+  margin-bottom: 14px;
+}
+.p-eyebrow::before{ content:"// project 02 "; color: var(--text-faint); }
+.p-title{
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: clamp(32px, 6vw, 60px);
+  margin: 0 0 20px 0;
+}
+.p-tags{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom: 40px; }
+.tag{
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  border: 1px solid var(--rule);
+  padding: 4px 9px;
+  border-radius: 20px;
+}
+.p-image{
+  width:100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 5vw, 56px);
+}
+.p-image img{
+  width:100%;
+  border-radius: 4px;
+  border: 1px solid var(--rule);
+  background: #fff;
+}
+.p-body{
+  max-width: 780px;
+  margin: 60px auto 0;
+  padding: 0 clamp(20px, 5vw, 56px);
+}
+.p-body h2{
+  font-family: var(--mono);
+  font-size: 18px;
+  margin: 40px 0 14px 0;
+}
+.p-body h2:first-child{ margin-top:0; }
+.p-body p{
+  color: var(--text-dim);
+  font-size: 15.5px;
+  line-height: 1.8;
+  margin: 0 0 16px 0;
+}
+.p-body ul{
+  color: var(--text-dim);
+  font-size: 15.5px;
+  line-height: 1.8;
+  margin: 0 0 16px 0;
+  padding-left: 22px;
+}
+.p-body li{ margin-bottom: 4px; }
+.p-body figure{
+  margin: 24px 0;
+}
+.p-body figure img{
+  width:100%;
+  border-radius: 4px;
+  border: 1px solid var(--rule);
+  background: #fff;
+}
+.p-body figcaption{
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--text-faint);
+  margin-top: 8px;
+}
+.spec-table{
+  width:100%;
+  border-collapse: collapse;
+  margin: 10px 0 20px;
+  font-size: 14px;
+}
+.spec-table th, .spec-table td{
+  text-align: left;
+  padding: 9px 10px;
+  border-bottom: 1px solid var(--rule);
+}
+.spec-table th{
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--text-faint);
+  font-weight: 500;
+}
+.spec-table td{ color: var(--text-dim); }
+.spec-table td:first-child{ color: var(--text); font-family: var(--mono); font-size: 13px; }
+.note-box{
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--text-faint);
+  border: 1px dashed var(--rule);
+  border-radius: 4px;
+  padding: 12px 16px;
+  margin: 0 0 16px 0;
+}
+.p-links{
+  display:flex; gap: 16px; margin: 34px 0 100px;
+  max-width: 780px;
+  padding: 0 clamp(20px, 5vw, 56px);
+  margin-left:auto; margin-right:auto;
+}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a class="brand" href="index.html">Number<span>9</span>3852</a>
+  <div class="nav-right">
+    <a href="projects.html" class="is-active">PROJECTS</a>
+    <a href="about.html">ABOUT</a>
+    <a href="contact.html">CONTACT</a>
+  </div>
+</nav>
+
+<div class="p-hero">
+  <a class="back-link" href="projects.html">← Back to projects</a>
+  <div class="p-eyebrow">index</div>
+  <h1 class="p-title">Smart Doll House</h1>
+  <div class="p-tags"><span class="tag">Arduino</span><span class="tag">Sensors</span><span class="tag">Remote Control</span></div>
+</div>
+
+<div class="p-image">
+  <img src="img/smart doll house/main.png" alt="Smart Doll House exterior with sensors and wiring mounted on the roof">
+</div>
+
+<div class="p-body">
+
+<h2>Overview</h2>
+<p>A wooden doll house wired up with an Arduino Uno and a dozen different sensors and outputs to make it behave like a real smart home — motion-activated outside lighting, a working doorbell, automatic climate control, and a garage door and room lights you can operate from an IR remote.</p>
+
+<h2>The problem</h2>
+<p>This was a project from a robotics class I used to attend. The house itself and all the sensors were provided as part of the class kit — my job was to write all of the code that tied everything together and made the house actually behave "smart."</p>
+
+<h2>What I built</h2>
+<p>The project breaks down into three main systems, all running on a single Arduino Uno:</p>
+
+<p><strong>Lighting &amp; doorbell.</strong> A PIR motion sensor watches the front yard and switches on the outside LED when it detects movement, while a photoresistor separately turns that same light on once it gets dark enough — so the porch light responds to both motion and ambient light. A button wired up as a doorbell triggers a buzzer alarm when pressed. The bedroom and living room each have their own LED that can be toggled independently from the IR remote.</p>
+
+<p><strong>Climate control.</strong> A temperature sensor sits in the "kitchen" right underneath a small fan, with an LCD screen displaying both the current temperature and the target temperature the house is trying to reach. An RGB LED shows the system's status at a glance — it lights up blue when the fan is actively cooling, and red whenever the target temperature is set higher than the current reading (i.e. the house wants to warm up). The target temperature is adjustable in 1-degree steps from the remote.</p>
+
+<figure>
+  <img src="img/smart doll house/wiring.png" alt="Interior of the Smart Doll House showing the Arduino, breadboard, and sensor wiring">
+  <figcaption>Interior view — Arduino Uno, breadboard, and sensor wiring routed through the rooms and up through the roof</figcaption>
+</figure>
+
+<p><strong>IR remote control.</strong> An IR receiver inside the house listens for signals from a handheld IR controller, which acts as the main interface for the whole system. Pressing <strong>OK</strong> drives a servo motor that rotates 90° to open or close the garage door, while <strong>UP</strong> and <strong>DOWN</strong> nudge the target temperature by one degree at a time. Buttons <strong>1</strong> and <strong>2</strong> toggle the bedroom and living room LEDs on and off respectively.</p>
+
+<h2>Remote control layout</h2>
+<table class="spec-table">
+  <tr><th>Button</th><th>Function</th></tr>
+  <tr><td>UP</td><td>Increases target temperature by 1°</td></tr>
+  <tr><td>DOWN</td><td>Decreases target temperature by 1°</td></tr>
+  <tr><td>OK</td><td>Opens / closes the garage door (servo motor)</td></tr>
+  <tr><td>1</td><td>Toggles the bedroom LED on/off</td></tr>
+  <tr><td>2</td><td>Toggles the living room LED on/off</td></tr>
+</table>
+
+<h2>Components used</h2>
+<table class="spec-table">
+  <tr><th>Component</th><th>Role</th></tr>
+  <tr><td>Arduino Uno</td><td>Main controller running all the logic</td></tr>
+  <tr><td>3× LED</td><td>Bedroom, living room, and outside lights</td></tr>
+  <tr><td>PIR sensor</td><td>Detects motion in the front yard to trigger the outside light</td></tr>
+  <tr><td>Photoresistor</td><td>Turns on the outside light automatically when it gets dark</td></tr>
+  <tr><td>Push button</td><td>Doorbell trigger</td></tr>
+  <tr><td>Buzzer</td><td>Doorbell alarm sound</td></tr>
+  <tr><td>Temperature sensor</td><td>Reads the current house temperature</td></tr>
+  <tr><td>Fan</td><td>Mounted above the temp sensor in the kitchen; cools it on demand</td></tr>
+  <tr><td>LCD screen</td><td>Displays current and target temperature</td></tr>
+  <tr><td>RGB LED</td><td>Status indicator — blue while cooling, red while heating is needed</td></tr>
+  <tr><td>IR receiver + IR remote</td><td>Handles all user input to the house</td></tr>
+  <tr><td>Servo motor</td><td>Opens/closes the garage door</td></tr>
+</table>
+
+<h2>Outcome</h2>
+<p>The finished house responded to motion and light automatically, let visitors "ring" a working doorbell, kept its own temperature readout in view on the LCD, and could be fully controlled — lights, garage door, and target temperature — from a single IR remote. It was a great hands-on intro to tying multiple sensor types and outputs together on one microcontroller.</p>
+
+<div class="note-box">Note: this project predates my current code organization — the original Arduino sketch isn't available to share here.</div>
+
+</div>
+
+<div class="p-links">
+</div>
+
+</body>
+</html>
