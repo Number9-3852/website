@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Projects — Your Name</title>
+<title>Projects</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=Special+Elite&display=swap" rel="stylesheet">
@@ -123,6 +123,18 @@
     filter: grayscale(0) contrast(1) brightness(1);
     transform: scale(1.06);
   }
+  .g-thumb-mystery{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:100%; height:100%;
+    font-family: var(--mono);
+    font-weight:700;
+    font-size: 44px;
+    color: var(--text-faint);
+    background: var(--bg-raised);
+  }
+  .g-card:hover .g-thumb-mystery{ color: #e5484d; }
   .g-info{ padding: 16px 18px 20px; }
   .g-year{
     font-family: var(--mono);
@@ -193,6 +205,33 @@
     filter: grayscale(0) blur(0px) contrast(1) brightness(1) saturate(1);
     transform: scale(1);
   }
+
+  /* ---------- Mystery project cover (unrevealed work-in-progress) ---------- */
+  .media .mystery-photo{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: clamp(70px, 12vw, 170px);
+    color: var(--text-faint);
+    background: var(--bg-raised);
+    -webkit-mask-image: radial-gradient(ellipse 72% 78% at 50% 50%, black 45%, transparent 92%);
+            mask-image: radial-gradient(ellipse 72% 78% at 50% 50%, black 45%, transparent 92%);
+    filter: grayscale(1) blur(9px) contrast(0.85) brightness(0.85);
+    transform: scale(1.06);
+    transition: filter 1.6s ease, transform 1.6s ease, color 1.6s ease;
+  }
+  .t-panel.revealed .media .mystery-photo{
+    filter: grayscale(0) blur(0px) contrast(1) brightness(1);
+    transform: scale(1);
+    color: #e5484d;
+  }
+  .t-panel.is-mystery{ cursor: pointer; }
 
   .t-overlay{
     position:absolute;
@@ -323,6 +362,14 @@
     background: var(--accent);
     box-shadow: 0 0 8px rgba(232,163,61,0.8);
   }
+  .playhead.is-danger{
+    background: #e5484d;
+    box-shadow: 0 0 8px rgba(229,72,77,0.8);
+  }
+  .playhead.is-danger::before{
+    background: #e5484d;
+    box-shadow: 0 0 8px rgba(229,72,77,0.9);
+  }
 
   @media (max-width: 720px){
     .t-panel{ width: 90vw; height: 62svh; }
@@ -358,7 +405,7 @@
 <div class="gallery" id="gallery">
 
   <div class="t-panel" data-href="project-TankGame.html" data-category="Games" data-year="2022" data-month="5">
-    <div class="t-idx">01 / 03</div>
+    <div class="t-idx">01 / 04</div>
     <div class="t-view">VIEW PROJECT →</div>
     <div class="media">
       <img class="photo" src="img/tank game/tank-game-thumb.png" alt="Tank maze game preview">
@@ -371,7 +418,7 @@
   </div>
 
   <div class="t-panel" data-href="project-SmartDollHouse.html" data-category="Hardware &amp; Embedded" data-year="2023" data-month="6">
-    <div class="t-idx">02 / 03</div>
+    <div class="t-idx">02 / 04</div>
     <div class="t-view">VIEW PROJECT →</div>
     <div class="media">
       <img class="photo" src="img/smart doll house/main.png" alt="Smart Doll House preview">
@@ -384,7 +431,7 @@
   </div>
 
   <div class="t-panel" data-href="project-5.html" data-category="Hardware &amp; Embedded" data-year="2026" data-month="7">
-    <div class="t-idx">03 / 03</div>
+    <div class="t-idx">03 / 04</div>
     <div class="t-view">VIEW PROJECT →</div>
     <div class="media">
       <img class="photo" src="img/project 5/main.png" alt="Dual-Rail Power Supply Board preview">
@@ -393,6 +440,19 @@
       <div class="t-year">2026</div>
       <h3 class="t-name">Dual-Rail Power Supply Board</h3>
       <div class="t-tags"><span class="tag">KiCad</span><span class="tag">Power Electronics</span><span class="tag">PCB Design</span></div>
+    </div>
+  </div>
+
+  <div class="t-panel is-mystery" data-href="project-DeskCubeSat.html" data-category="Hardware &amp; Embedded" data-year="2026" data-month="9">
+    <div class="t-idx">04 / 04</div>
+    <div class="t-view">VIEW PROJECT →</div>
+    <div class="media">
+      <div class="mystery-photo" aria-hidden="true">?</div>
+    </div>
+    <div class="t-overlay">
+      <div class="t-year">2026</div>
+      <h3 class="t-name">Desk CubeSat</h3>
+      <div class="t-tags"><span class="tag">STM32</span><span class="tag">PCB Design</span><span class="tag">Reaction Wheel</span></div>
     </div>
   </div>
 
@@ -485,8 +545,12 @@
       }
     }
   }
-  gallery.addEventListener('scroll', updatePlayhead, { passive: true });
-  window.addEventListener('resize', () => { measurePositions(); updatePlayhead(); });
+  function updatePlayheadDanger(){
+    const idx = nearestIndex();
+    playhead.classList.toggle('is-danger', !!(panels[idx] && panels[idx].classList.contains('is-mystery')));
+  }
+  gallery.addEventListener('scroll', () => { updatePlayhead(); updatePlayheadDanger(); }, { passive: true });
+  window.addEventListener('resize', () => { measurePositions(); updatePlayhead(); updatePlayheadDanger(); });
   updatePlayhead();
 
   // ---------- Wheel / trackpad input pages through one project at a
@@ -542,13 +606,15 @@
   panels.forEach(panel => {
     const cat = panel.dataset.category || 'Other';
     if (!groups.has(cat)) groups.set(cat, []);
+    const imgEl = panel.querySelector('.media img');
     groups.get(cat).push({
       href: panel.dataset.href,
       year: panel.dataset.year,
       name: panel.querySelector('.t-name').textContent,
       tagsHTML: panel.querySelector('.t-tags').innerHTML,
-      img: panel.querySelector('.media img').getAttribute('src'),
-      alt: panel.querySelector('.media img').getAttribute('alt'),
+      img: imgEl ? imgEl.getAttribute('src') : null,
+      alt: imgEl ? imgEl.getAttribute('alt') : 'Mystery project — reveal on the timeline',
+      isMystery: panel.classList.contains('is-mystery'),
     });
   });
 
@@ -568,8 +634,11 @@
       card.className = 'g-card';
       card.href = item.href;
       card.setAttribute('data-no-transition', 'true');
+      const thumbHTML = item.isMystery
+        ? `<div class="g-thumb g-thumb-mystery">?</div>`
+        : `<div class="g-thumb"><img src="${item.img}" alt="${item.alt}" loading="lazy"></div>`;
       card.innerHTML = `
-        <div class="g-thumb"><img src="${item.img}" alt="${item.alt}" loading="lazy"></div>
+        ${thumbHTML}
         <div class="g-info">
           <div class="g-year">${item.year}</div>
           <h3 class="g-name">${item.name}</h3>
