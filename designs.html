@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Designs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=Special+Elite&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="designs.css">
+</head>
+<body>
+
+<div class="page-transition" id="pageTransition">
+  <div class="pt-label">LOADING</div>
+  <div class="pt-bar"></div>
+</div>
+<script src="transition.js"></script>
+
+<nav class="site-nav">
+  <a class="brand" href="index.html">Number<span>9</span>3852</a>
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-overlay" id="navOverlay"></div>
+  <div class="nav-right" id="navMenu">
+    <a href="projects.html">PROJECTS</a>
+    <a href="designs.html">DESIGNS</a>
+    <a href="about.html">ABOUT</a>
+    <a href="contact.html">CONTACT</a>
+  </div>
+</nav>
+
+<main class="designs-stage" id="designsStage">
+
+  <div class="designs-counter" id="designsCounter">01 / 03</div>
+
+  <!-- ============ DESIGN 1 ============ -->
+  <section class="design-slide" data-index="1">
+    <div class="model-pane">
+      <canvas class="model-canvas" data-model="3D_model/CAT.gltf"></canvas>
+      <div class="model-hint">RIGHT-CLICK + DRAG TO ROTATE</div>
+      <label class="model-upload">
+        LOAD LOCAL MODEL
+        <input type="file" accept=".glb,.gltf" class="model-file-input">
+      </label>
+    </div>
+    <div class="info-pane">
+      <div class="info-eyebrow">DESIGN 01</div>
+      <h2>Catipult</h2>
+      <p class="info-story">
+        for my first multy part 3D project I built a catipolt I designed all the parts in Fusion 360 and used the assambel fiture on fusion to assemble and check how all the parts foing to work in a simulation. 
+      </p>
+    </div>
+  </section>
+  
+  <!-- ============ DESIGN 2 ============ -->
+  <section class="design-slide" data-index="2">
+    <div class="model-pane">
+      <canvas class="model-canvas" data-model="3D_model/Mouse.gltf"></canvas>
+      <div class="model-hint">RIGHT-CLICK + DRAG TO ROTATE</div>
+      <label class="model-upload">
+        LOAD LOCAL MODEL
+        <input type="file" accept=".glb,.gltf" class="model-file-input">
+      </label>
+    </div>
+    <div class="info-pane">
+      <div class="info-eyebrow">DESIGN 02</div>
+      <h2>Mouse</h2>
+      <p class="info-story">
+        In high school, my club, the Fabrication Lab, ran a charity toy sale during the annual Christmas show as a community project. We designed and 3D-printed the toys at school, sold them, and raised about $800, which we donated to charity. This is one of the toys I designed: a mouse with a body made of chain joints..
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ DESIGN 3 ============ -->
+  
+  <!--
+    To add more designs: copy one <section class="design-slide">...</section> block,
+    bump data-index and DESIGN 0X, point data-model at a new file in /models,
+    and update the "01 / 03" fallback text above (the JS recalculates it automatically).
+  -->
+
+</main>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+<script src="nav.js" defer></script>
+<script type="module" src="designs.js"></script>
+</body>
+</html>

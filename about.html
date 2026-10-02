@@ -225,6 +225,9 @@
   }
 </style>
 </head>
+
+<script src="nav.js" defer></script>
+
 <body>
 
 <div class="page-transition" id="pageTransition">
@@ -235,9 +238,14 @@
 
 <nav class="site-nav">
   <a class="brand" href="index.html">Number<span>9</span>3852</a>
-  <div class="nav-right">
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-overlay" id="navOverlay"></div>
+  <div class="nav-right" id="navMenu">
     <a href="projects.html">PROJECTS</a>
-    <a href="about.html" class="is-active">ABOUT</a>
+    <a href="designs.html">DESIGNS</a>
+    <a href="about.html">ABOUT</a>
     <a href="contact.html">CONTACT</a>
   </div>
 </nav>
