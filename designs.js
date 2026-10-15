@@ -14,7 +14,6 @@ const viewers = slides.map((slide) => {
   fileInput.addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    console.log("hallo");
     viewer.loadModel(URL.createObjectURL(file), true);
   });
 
@@ -82,7 +81,6 @@ function createViewer(canvas, modelUrl) {
   }
 
   function loadModel(url, isBlob) {
-    console.log("hi");
     if (!url) return;
     loader.load(
       url,
@@ -91,9 +89,6 @@ function createViewer(canvas, modelUrl) {
         currentModel = gltf.scene;
         scene.add(currentModel);
         frameObject(currentModel);
-        console.log('Model loaded:', currentModel);
-        console.log('Canvas size:', canvas.clientWidth, canvas.clientHeight);
-        console.log('Bounding box:', new THREE.Box3().setFromObject(currentModel));
         if (isBlob) URL.revokeObjectURL(url);
       },
       undefined,

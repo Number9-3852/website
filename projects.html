@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Projects</title>
+<title>Projects — Nima Ghalaenovi</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=Special+Elite&display=swap" rel="stylesheet">
@@ -378,10 +378,8 @@
     .ruler{ height: 64px; }
   }
 </style>
-</head>
-
 <script src="nav.js" defer></script>
-
+</head>
 <body>
 
 <div class="page-transition" id="pageTransition">
@@ -673,12 +671,12 @@
       gallery.style.display = 'none';
       ruler.style.display = 'none';
       groupedView.classList.add('active');
-      pageHint.textContent = 'organized by project type';
+      if (pageHint) pageHint.textContent = 'organized by project type';
     } else {
       gallery.style.display = 'flex';
       ruler.style.display = 'flex';
       groupedView.classList.remove('active');
-      pageHint.textContent = 'scroll to move through time · click a frame to open it';
+      if (pageHint) pageHint.textContent = 'scroll to move through time · click a frame to open it';
       updatePlayhead();
     }
   }

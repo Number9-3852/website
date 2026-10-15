@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tank vs. Pathfinder</title>
+<title>Tank vs. Pathfinder — Nima Ghalaenovi</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=Special+Elite&display=swap" rel="stylesheet">
@@ -176,13 +176,19 @@
   margin-left:auto; margin-right:auto;
 }
 </style>
+<script src="nav.js" defer></script>
 </head>
 <body>
 
 <nav class="site-nav">
   <a class="brand" href="index.html">Number<span>9</span>3852</a>
-  <div class="nav-right">
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-overlay" id="navOverlay"></div>
+  <div class="nav-right" id="navMenu">
     <a href="projects.html" class="is-active">PROJECTS</a>
+    <a href="designs.html">DESIGNS</a>
     <a href="about.html">ABOUT</a>
     <a href="contact.html">CONTACT</a>
   </div>
@@ -214,10 +220,10 @@
 <div class="p-body">
 
 <h2>Overview</h2>
-<p>A top-down maze shooter built from scratch in Python with Pygame. You control a tank navigating a procedurally-rendered maze while an autonomous "attacker" hunts you down using real A* pathfinding — it recalculates a route to your position every couple of seconds, so it actually chases you through the maze rather than beelining through walls.</p>
+<p>A top-down maze shooter built from scratch in Python with Pygame. You control a tank navigating a procedurally rendered maze while an autonomous "attacker" hunts you down using real A* pathfinding — it recalculates a route to your position every couple of seconds, so it actually chases you through the maze rather than beelining through walls.</p>
 
 <h2>The problem</h2>
-<p>In the beging of high school  joined an after school coding camp where I learned how to build games using python. This program is my final project, I decided to build a game like Pacman but with a ability to shoot. I didnt want the opponent to have a preprogrammed path, so I used the Pathfinder libery to give it live decision making.</p>
+<p>At the beginning of high school, I joined an after-school coding camp where I learned how to build games using Python. This program was my final project. I decided to build a game like Pac-Man, but with the ability to shoot. I didn't want the opponent to follow a preprogrammed path, so I used the <code>pathfinding</code> library to give it live decision-making.</p>
 
 <h2>What I built</h2>
 <p>The maze itself is generated from a small bitmap (<code>1.png</code>) — each pixel maps to a 25×25px tile, and black pixels become wall rects, so the level layout is literally paintable as an image. The player tank moves on WASD with rect-based collision against every wall tile, and firing spawns a bullet that travels toward the mouse cursor with real vector math.</p>

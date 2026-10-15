@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dual-Rail Power Supply Board</title>
+<title>Dual-Rail Power Supply Board — Nima Ghalaenovi</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=Special+Elite&display=swap" rel="stylesheet">
@@ -120,13 +120,19 @@
   margin-left:auto; margin-right:auto;
 }
 </style>
+<script src="nav.js" defer></script>
 </head>
 <body>
 
 <nav class="site-nav">
   <a class="brand" href="index.html">Number<span>9</span>3852</a>
-  <div class="nav-right">
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-overlay" id="navOverlay"></div>
+  <div class="nav-right" id="navMenu">
     <a href="projects.html" class="is-active">PROJECTS</a>
+    <a href="designs.html">DESIGNS</a>
     <a href="about.html">ABOUT</a>
     <a href="contact.html">CONTACT</a>
   </div>
@@ -172,11 +178,11 @@
 </table>
 
 <figure>
-  <img src="img/project 5/main.png" >
+  <img src="img/project 5/main.png" alt="Dual-Rail Power Supply Board">
 </figure>
 
 <h2>Outcome</h2>
-<p>The board now sits between the 12V supply and the rest of the robotics project, giving the motor, servos, and control electronics each a clean, appropriately-regulated rail from a single input — no more running separate bench supplies for testing.</p>
+<p>The board now sits between the 12V supply and the rest of the robotics project, giving the motor, servos, and control electronics each a clean, appropriately regulated rail from a single input — no more running separate bench supplies for testing.</p>
 
 </div>
 
