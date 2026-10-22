@@ -4,31 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Contact — Nima Ghalaenovi</title>
+<meta name="description" content="Get in touch with Nima Ghalaenovi by email, GitHub, or LinkedIn.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Nima Ghalaenovi">
+<meta property="og:title" content="Contact — Nima Ghalaenovi">
+<meta property="og:description" content="Get in touch by email, GitHub, or LinkedIn.">
+<meta property="og:url" content="https://number9-3852.github.io/website/contact.html">
+<meta property="og:image" content="https://number9-3852.github.io/website/img/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=Special+Elite&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <style>
-  .page-head{
-    padding: 150px clamp(20px, 5vw, 56px) 30px;
-    max-width: 1180px;
-    margin: 0 auto;
-  }
-  .page-eyebrow{
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--accent);
-    letter-spacing: 0.12em;
-    margin-bottom: 14px;
-  }
-  .page-eyebrow::before{ content:""; color: var(--text-faint); }
-  .page-title{
-    font-family: var(--mono);
-    font-weight: 700;
-    font-size: clamp(32px, 6vw, 60px);
-    margin: 0;
-  }
-    /* ---------- BOARD ---------- */
+  /* ---------- BOARD ---------- */
   .board-wrap{
     max-width: 1020px;
     margin: 80px auto 100px;
@@ -98,7 +88,7 @@
   .sticky-note .sub{
     display:block;
     margin-top:10px;
-    font-family:'JetBrains Mono', monospace;
+    font-family:var(--mono);
     font-size:11px;
     letter-spacing:.08em;
     text-transform:uppercase;
@@ -234,26 +224,11 @@
 <script src="nav.js" defer></script>
 </head>
 <body>
-
-<div class="page-transition" id="pageTransition">
-  <div class="pt-label">LOADING</div>
-  <div class="pt-bar"></div>
-</div>
 <script src="transition.js"></script>
 
-<nav class="site-nav">
-  <a class="brand" href="index.html">Number<span>9</span>3852</a>
-  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
-  <div class="nav-overlay" id="navOverlay"></div>
-  <div class="nav-right" id="navMenu">
-    <a href="projects.html">PROJECTS</a>
-    <a href="designs.html">DESIGNS</a>
-    <a href="about.html">ABOUT</a>
-    <a href="contact.html">CONTACT</a>
-  </div>
-</nav>
+<nav class="site-nav"></nav>
+
+<h1 class="visually-hidden">Contact</h1>
 
 <div class="board-wrap">
   <div class="board">

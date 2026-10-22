@@ -1,9 +1,18 @@
 // Page transition: a dark curtain that wipes up to reveal each page on
 // load, and wipes back down to cover the screen before navigating away —
 // so moving between pages feels like one continuous motion.
+// Include this as the first thing inside <body>: it creates the curtain
+// itself, so the page is covered before anything else paints.
 (function(){
-  const overlay = document.getElementById('pageTransition');
-  if (!overlay) return;
+  let overlay = document.getElementById('pageTransition');
+  if (!overlay){
+    overlay = document.createElement('div');
+    overlay.className = 'page-transition';
+    overlay.id = 'pageTransition';
+    overlay.setAttribute('aria-hidden', 'true');
+    overlay.innerHTML = '<div class="pt-label">LOADING</div><div class="pt-bar"></div>';
+    document.body.prepend(overlay);
+  }
 
   function revealPage(){
     requestAnimationFrame(() => {
@@ -32,6 +41,12 @@
   } else {
     setTimeout(revealPage, 120);
   }
+
+  // Back/forward can restore this page from the browser's cache exactly as
+  // it was left — curtain down — without running the load logic again.
+  window.addEventListener('pageshow', (e) => {
+    if (e.persisted) revealPage();
+  });
 
   // Used by custom navigation flows (e.g. the projects timeline) that
   // need to finish their own animation before the page actually changes.

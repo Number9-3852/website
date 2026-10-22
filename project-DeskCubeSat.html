@@ -4,216 +4,37 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Desk CubeSat — Nima Ghalaenovi</title>
+<meta name="description" content="A satellite-styled desk device and 3-axis reaction-wheel attitude-control testbed with custom DRV8874 motor drivers.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Nima Ghalaenovi">
+<meta property="og:title" content="Desk CubeSat — Nima Ghalaenovi">
+<meta property="og:description" content="A satellite-styled desk device and 3-axis reaction-wheel attitude-control testbed with custom DRV8874 motor drivers.">
+<meta property="og:url" content="https://number9-3852.github.io/website/project-DeskCubeSat.html">
+<meta property="og:image" content="https://number9-3852.github.io/website/img/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=Special+Elite&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
-<style>
-.p-hero{
-  padding: 150px clamp(20px, 5vw, 56px) 0;
-  max-width: 1180px;
-  margin: 0 auto;
-}
-.back-link{
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--text-dim);
-  text-decoration:none;
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  margin-bottom: 30px;
-  transition: color .2s ease;
-}
-.back-link:hover{ color: var(--accent); }
-.p-eyebrow{
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--accent);
-  letter-spacing: 0.12em;
-  margin-bottom: 14px;
-}
-.p-eyebrow::before{ content:"// project 07 "; color: var(--text-faint); }
-.p-title{
-  font-family: var(--mono);
-  font-weight: 700;
-  font-size: clamp(32px, 6vw, 60px);
-  margin: 0 0 20px 0;
-}
-.p-tags{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom: 24px; }
-.tag{
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--text-dim);
-  border: 1px solid var(--rule);
-  padding: 4px 9px;
-  border-radius: 20px;
-}
-.status-pill{
-  display:inline-flex;
-  align-items:center;
-  gap: 7px;
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  color: #e5a33d;
-  border: 1px solid #4a3c1e;
-  background: rgba(229,163,61,0.08);
-  padding: 5px 11px 5px 9px;
-  border-radius: 20px;
-  margin-bottom: 40px;
-}
-.status-pill::before{
-  content:"";
-  width:6px; height:6px;
-  border-radius:50%;
-  background:#e5a33d;
-  box-shadow: 0 0 6px rgba(229,163,61,0.9);
-  flex-shrink:0;
-}
-.p-image{
-  width:100%;
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: 0 clamp(20px, 5vw, 56px);
-}
-.p-image img{
-  width:100%;
-  border-radius: 4px;
-  border: 1px solid var(--rule);
-  background: #fff;
-}
-.p-body{
-  max-width: 780px;
-  margin: 60px auto 0;
-  padding: 0 clamp(20px, 5vw, 56px);
-}
-.p-body h2{
-  font-family: var(--mono);
-  font-size: 18px;
-  margin: 40px 0 14px 0;
-}
-.p-body h2:first-child{ margin-top:0; }
-.p-body p{
-  color: var(--text-dim);
-  font-size: 15.5px;
-  line-height: 1.8;
-  margin: 0 0 16px 0;
-}
-.p-body ul{
-  color: var(--text-dim);
-  font-size: 15.5px;
-  line-height: 1.8;
-  margin: 0 0 16px 0;
-  padding-left: 22px;
-}
-.p-body li{ margin-bottom: 4px; }
-.p-body figure{
-  margin: 24px 0;
-}
-.p-body figure img{
-  width:100%;
-  border-radius: 4px;
-  border: 1px solid var(--rule);
-  background: #fff;
-}
-.p-body figcaption{
-  font-family: var(--mono);
-  font-size: 11.5px;
-  color: var(--text-faint);
-  margin-top: 8px;
-}
-.spec-table{
-  width:100%;
-  border-collapse: collapse;
-  margin: 10px 0 20px;
-  font-size: 14px;
-}
-.spec-table th, .spec-table td{
-  text-align: left;
-  padding: 9px 10px;
-  border-bottom: 1px solid var(--rule);
-}
-.spec-table th{
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  color: var(--text-faint);
-  font-weight: 500;
-}
-.spec-table td{ color: var(--text-dim); }
-.spec-table td:first-child{ color: var(--text); font-family: var(--mono); font-size: 13px; }
-.roadmap{
-  list-style: none;
-  padding-left: 0;
-  margin: 10px 0 20px;
-}
-.roadmap li{
-  display:flex;
-  align-items:flex-start;
-  gap: 10px;
-  padding: 9px 0;
-  border-bottom: 1px solid var(--rule);
-  color: var(--text-dim);
-  font-size: 15px;
-}
-.roadmap li:last-child{ border-bottom:none; }
-.roadmap .rm-box{
-  flex-shrink:0;
-  width: 14px; height: 14px;
-  margin-top: 3px;
-  border-radius: 3px;
-  border: 1px solid var(--text-faint);
-}
-.roadmap li.done .rm-box{
-  background: var(--accent);
-  border-color: var(--accent);
-}
-.roadmap li.done{ color: var(--text); }
-.note-box{
-  font-family: var(--mono);
-  font-size: 12.5px;
-  color: var(--text-faint);
-  border: 1px dashed var(--rule);
-  border-radius: 4px;
-  padding: 12px 16px;
-  margin: 0 0 16px 0;
-}
-.p-links{
-  display:flex; gap: 16px; margin: 34px 0 100px;
-  max-width: 780px;
-  padding: 0 clamp(20px, 5vw, 56px);
-  margin-left:auto; margin-right:auto;
-}
-</style>
+<link rel="stylesheet" href="project.css">
 <script src="nav.js" defer></script>
 </head>
 <body>
+<script src="transition.js"></script>
 
-<nav class="site-nav">
-  <a class="brand" href="index.html">Number<span>9</span>3852</a>
-  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
-  <div class="nav-overlay" id="navOverlay"></div>
-  <div class="nav-right" id="navMenu">
-    <a href="projects.html" class="is-active">PROJECTS</a>
-    <a href="designs.html">DESIGNS</a>
-    <a href="about.html">ABOUT</a>
-    <a href="contact.html">CONTACT</a>
-  </div>
-</nav>
+<nav class="site-nav"></nav>
 
 <div class="p-hero">
   <a class="back-link" href="projects.html">← Back to projects</a>
-  <div class="p-eyebrow">index</div>
+  <div class="p-eyebrow" data-num="07">index</div>
   <h1 class="p-title">Desk CubeSat</h1>
   <div class="p-tags"><span class="tag">STM32</span><span class="tag">PCB Design</span><span class="tag">Reaction Wheel</span><span class="tag">Attitude Control</span></div>
   <div class="status-pill">IN PROGRESS — architecture &amp; driver schematic done, PCB + firmware underway</div>
 </div>
 
 <div class="p-image">
-  <img src="img/desk cubesat/schematic-overview.png" alt="Top-level hierarchical schematic sheet showing the power, motor 1/2/3, STM32 connector, and sensors sub-sheets">
+  <img src="img/desk cubesat/schematic-overview.png" width="1229" height="793" alt="Top-level hierarchical schematic sheet showing the power, motor 1/2/3, STM32 connector, and sensors sub-sheets">
 </div>
 
 <div class="p-body">
@@ -228,18 +49,18 @@
 <p>The schematic is organized hierarchically: a top-level sheet ties together a <strong>Power</strong> sub-sheet, three identical <strong>Motor Controller</strong> sub-sheets (one per reaction wheel), an <strong>STM pins</strong> sheet that breaks out the NUCLEO-G474RE's connections, and a <strong>Sensors</strong> sheet reserved for the BNO055, BME280, OLED, ESP32-C3, touch sensor, and status LED — that sheet is still an empty placeholder, since the sensor side hasn't been wired up yet. Right now the schematic fully covers power and all three motor channels; sensors are the next thing to design.</p>
 
 <figure>
-  <img src="img/desk cubesat/schematic-overview.png" alt="Top-level hierarchical schematic sheet showing the power, motor 1/2/3, STM32 connector, and sensors sub-sheets">
+  <img loading="lazy" decoding="async" src="img/desk cubesat/schematic-overview.png" alt="Top-level hierarchical schematic sheet showing the power, motor 1/2/3, STM32 connector, and sensors sub-sheets">
   <figcaption>Top-level sheet — Power and three Motor Controller sheets are fully wired into the STM connector; the Sensors sheet (bottom left) is still an empty placeholder</figcaption>
 </figure>
 
 <p>Each motor sub-sheet exposes the same set of signals back to the STM32: a current-sense line (CS), an enable line (EN), a fault line (FAULT), and a direction/phase line (PH), with a single SLEEP_n line shared across all three drivers. The core NUCLEO-G474RE is split across two symbol halves (U4A/U4B) on the STM pins sheet, since its Morpho connector has more pins than fit cleanly on one symbol — U4A carries the fault/enable lines for channels 1 and 3 plus power, and U4B carries the remaining current-sense, enable, and phase lines along with the SDA/SCL bus reserved for the (not-yet-wired) sensor bus.</p>
 
 <figure>
-  <img src="img/desk cubesat/schematic-stm-pins.png" alt="STM32 NUCLEO-G474RE pin breakout schematic, split across two symbol halves U4A and U4B">
+  <img loading="lazy" decoding="async" src="img/desk cubesat/schematic-stm-pins.png" alt="STM32 NUCLEO-G474RE pin breakout schematic, split across two symbol halves U4A and U4B">
   <figcaption>NUCLEO-G474RE pin breakout — CS/EN/FAULT/PH lines for all three motor channels, plus the SDA/SCL stub reserved for sensors</figcaption>
 </figure>
 
-<h3 style="font-family:var(--mono); font-size:15px; margin:28px 0 10px;">Planned sensor integration (not yet wired)</h3>
+<h3>Planned sensor integration (not yet wired)</h3>
 <p>The Sensors sheet is still an empty placeholder, but the plan is to hang orientation and environmental sensing off the I2C bus already stubbed out on the STM pins sheet, add an SPI display, and use a UART-linked co-processor for WiFi time sync:</p>
 <table class="spec-table">
   <tr><th>Subsystem</th><th>Planned interface</th><th>Role</th></tr>
@@ -255,7 +76,7 @@
 <p>Each of the three reaction wheels gets its own custom driver board built around the <strong>DRV8874PWPR</strong> (U2). Since a pre-built breakout wasn't readily available, the circuit was built up from scratch: a P-channel MOSFET (Q2, AO3401A) sits in the VIN line ahead of the driver for reverse-polarity protection, a 16.2V zener (D2) clamps input transients, and a bulk capacitor bank (C7–C10: two 0.1µF and two 4.7µF) filters the supply. A 220nF cap (C11) and 22nF cap (C12) condition the VCP charge-pump and CPH/CPL pins the DRV8874 needs for its high-side gate drive. IPROPI current-sense feedback is conditioned through R11 (2.49kΩ) and R12 (20kΩ) before heading to the STM32's ADC as the real-time torque signal, IMODE is left unpopulated (R9, NP) to select the default current-sense gain, and PMODE is tied to ground as required by the datasheet. SLEEP_N gets a 10kΩ pull (R10) and FAULT_N a 10kΩ pull-up (R8) to 3.3V so a fault reads as a clean logic level back to the MCU. Motor output (OUT1/OUT2) lands on a 2-pin screw terminal (J2).</p>
 
 <figure>
-  <img src="img/desk cubesat/schematic-driver.png" alt="Schematic of one DRV8874 motor driver channel with reverse-polarity protection, charge-pump filtering, and IPROPI current-sense conditioning">
+  <img loading="lazy" decoding="async" src="img/desk cubesat/schematic-driver.png" alt="Schematic of one DRV8874 motor driver channel with reverse-polarity protection, charge-pump filtering, and IPROPI current-sense conditioning">
   <figcaption>Schematic — one of three identical DRV8874 driver channels (motor 2 shown), with input protection, charge-pump filtering, and IPROPI current-sense conditioning</figcaption>
 </figure>
 
@@ -274,7 +95,7 @@
 <p>Because the body rotates continuously and without limit during testing, the whole system runs on an onboard <strong>3S LiPo battery</strong> rather than tethered wall power — a wired tether or slip ring would be impractical for a hobby build that's meant to spin freely and indefinitely. The 12V motor rail comes straight off the battery (J6), and a <strong>TPS54360DDA</strong> synchronous buck converter (U5) steps that down to a clean 5V logic rail. The feedback divider (R20/R21) sets the 5V regulation point, R19 and the RT/CLK pin set the switching frequency, and an LC output filter (L1, 8.2µH, plus the C24/C25 output capacitor bank) keeps ripple down. A resistor divider (R22/R23/R24) off the enable pin sets the UVLO threshold so the converter stays off until the input is within range, a bootstrap capacitor (C22, 0.1µF) drives the high-side switch, and a Schottky diode (D4, B560C) sits across the switch node for transient protection.</p>
 
 <figure>
-  <img src="img/desk cubesat/schematic-power.png" alt="Schematic of the TPS54360 buck converter power stage generating the 5V logic rail from the 12V battery input">
+  <img loading="lazy" decoding="async" src="img/desk cubesat/schematic-power.png" alt="Schematic of the TPS54360 buck converter power stage generating the 5V logic rail from the 12V battery input">
   <figcaption>Schematic — TPS54360DDA buck stage stepping the 12V battery rail down to 5V for logic</figcaption>
 </figure>
 

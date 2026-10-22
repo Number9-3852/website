@@ -42,17 +42,14 @@ function createViewer(canvas, modelUrl) {
   controls.enablePan = false;
   controls.enableZoom = false; // keep mouse wheel free to scroll the page between designs
   controls.mouseButtons = {
-    LEFT: null,
+    LEFT: THREE.MOUSE.ROTATE,
     MIDDLE: null,
-    RIGHT: THREE.MOUSE.ROTATE,
+    RIGHT: null,
   };
   controls.touches = {
     ONE: THREE.TOUCH.ROTATE,
     TWO: null,
   };
-
-  // stop the browser's right-click menu from popping up over the model
-  canvas.addEventListener('contextmenu', (e) => e.preventDefault());
 
   // basic drag-and-drop of a .glb/.gltf straight onto the canvas
   canvas.addEventListener('dragover', (e) => e.preventDefault());

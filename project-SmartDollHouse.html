@@ -4,166 +4,36 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Smart Doll House — Nima Ghalaenovi</title>
+<meta name="description" content="An Arduino-powered smart doll house with motion lighting, a doorbell, climate control, and IR remote control.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Nima Ghalaenovi">
+<meta property="og:title" content="Smart Doll House — Nima Ghalaenovi">
+<meta property="og:description" content="An Arduino-powered smart doll house with motion lighting, a doorbell, climate control, and IR remote control.">
+<meta property="og:url" content="https://number9-3852.github.io/website/project-SmartDollHouse.html">
+<meta property="og:image" content="https://number9-3852.github.io/website/img/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=Special+Elite&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
-<style>
-.p-hero{
-  padding: 150px clamp(20px, 5vw, 56px) 0;
-  max-width: 1180px;
-  margin: 0 auto;
-}
-.back-link{
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--text-dim);
-  text-decoration:none;
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  margin-bottom: 30px;
-  transition: color .2s ease;
-}
-.back-link:hover{ color: var(--accent); }
-.p-eyebrow{
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--accent);
-  letter-spacing: 0.12em;
-  margin-bottom: 14px;
-}
-.p-eyebrow::before{ content:"// project 02 "; color: var(--text-faint); }
-.p-title{
-  font-family: var(--mono);
-  font-weight: 700;
-  font-size: clamp(32px, 6vw, 60px);
-  margin: 0 0 20px 0;
-}
-.p-tags{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom: 40px; }
-.tag{
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--text-dim);
-  border: 1px solid var(--rule);
-  padding: 4px 9px;
-  border-radius: 20px;
-}
-.p-image{
-  width:100%;
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: 0 clamp(20px, 5vw, 56px);
-}
-.p-image img{
-  width:100%;
-  border-radius: 4px;
-  border: 1px solid var(--rule);
-  background: #fff;
-}
-.p-body{
-  max-width: 780px;
-  margin: 60px auto 0;
-  padding: 0 clamp(20px, 5vw, 56px);
-}
-.p-body h2{
-  font-family: var(--mono);
-  font-size: 18px;
-  margin: 40px 0 14px 0;
-}
-.p-body h2:first-child{ margin-top:0; }
-.p-body p{
-  color: var(--text-dim);
-  font-size: 15.5px;
-  line-height: 1.8;
-  margin: 0 0 16px 0;
-}
-.p-body ul{
-  color: var(--text-dim);
-  font-size: 15.5px;
-  line-height: 1.8;
-  margin: 0 0 16px 0;
-  padding-left: 22px;
-}
-.p-body li{ margin-bottom: 4px; }
-.p-body figure{
-  margin: 24px 0;
-}
-.p-body figure img{
-  width:100%;
-  border-radius: 4px;
-  border: 1px solid var(--rule);
-  background: #fff;
-}
-.p-body figcaption{
-  font-family: var(--mono);
-  font-size: 11.5px;
-  color: var(--text-faint);
-  margin-top: 8px;
-}
-.spec-table{
-  width:100%;
-  border-collapse: collapse;
-  margin: 10px 0 20px;
-  font-size: 14px;
-}
-.spec-table th, .spec-table td{
-  text-align: left;
-  padding: 9px 10px;
-  border-bottom: 1px solid var(--rule);
-}
-.spec-table th{
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  color: var(--text-faint);
-  font-weight: 500;
-}
-.spec-table td{ color: var(--text-dim); }
-.spec-table td:first-child{ color: var(--text); font-family: var(--mono); font-size: 13px; }
-.note-box{
-  font-family: var(--mono);
-  font-size: 12.5px;
-  color: var(--text-faint);
-  border: 1px dashed var(--rule);
-  border-radius: 4px;
-  padding: 12px 16px;
-  margin: 0 0 16px 0;
-}
-.p-links{
-  display:flex; gap: 16px; margin: 34px 0 100px;
-  max-width: 780px;
-  padding: 0 clamp(20px, 5vw, 56px);
-  margin-left:auto; margin-right:auto;
-}
-</style>
+<link rel="stylesheet" href="project.css">
 <script src="nav.js" defer></script>
 </head>
 <body>
+<script src="transition.js"></script>
 
-<nav class="site-nav">
-  <a class="brand" href="index.html">Number<span>9</span>3852</a>
-  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
-  <div class="nav-overlay" id="navOverlay"></div>
-  <div class="nav-right" id="navMenu">
-    <a href="projects.html" class="is-active">PROJECTS</a>
-    <a href="designs.html">DESIGNS</a>
-    <a href="about.html">ABOUT</a>
-    <a href="contact.html">CONTACT</a>
-  </div>
-</nav>
+<nav class="site-nav"></nav>
 
 <div class="p-hero">
   <a class="back-link" href="projects.html">← Back to projects</a>
-  <div class="p-eyebrow">index</div>
+  <div class="p-eyebrow" data-num="02">index</div>
   <h1 class="p-title">Smart Doll House</h1>
   <div class="p-tags"><span class="tag">Arduino</span><span class="tag">Sensors</span><span class="tag">Remote Control</span></div>
 </div>
 
 <div class="p-image">
-  <img src="img/smart doll house/main.png" alt="Smart Doll House exterior with sensors and wiring mounted on the roof">
+  <img src="img/smart doll house/main.webp" alt="Smart Doll House exterior with sensors and wiring mounted on the roof" width="422" height="351">
 </div>
 
 <div class="p-body">
@@ -182,7 +52,7 @@
 <p><strong>Climate control.</strong> A temperature sensor sits in the "kitchen" right underneath a small fan, with an LCD screen displaying both the current temperature and the target temperature the house is trying to reach. An RGB LED shows the system's status at a glance — it lights up blue when the fan is actively cooling, and red whenever the target temperature is set higher than the current reading (i.e. the house wants to warm up). The target temperature is adjustable in 1-degree steps from the remote.</p>
 
 <figure>
-  <img src="img/smart doll house/wiring.png" alt="Interior of the Smart Doll House showing the Arduino, breadboard, and sensor wiring">
+  <img loading="lazy" decoding="async" src="img/smart doll house/wiring.webp" alt="Interior of the Smart Doll House showing the Arduino, breadboard, and sensor wiring">
   <figcaption>Interior view — Arduino Uno, breadboard, and sensor wiring routed through the rooms and up through the roof</figcaption>
 </figure>
 

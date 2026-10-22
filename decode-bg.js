@@ -10,10 +10,13 @@ function initDecodeField(containerSelector){
   const CHARS = "01{}[]<>/\\;:_-+=*#$@%01010101abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const CELL = 15;
   const RADIUS = 190;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   let cols, rows, cells = [];
   let mouse = { x: -9999, y: -9999 };
   let dpr = Math.min(window.devicePixelRatio || 1, 2);
+  let onScreen = true;
+  let frameId = 0;
 
   function randChar(){ return CHARS[(Math.random() * CHARS.length) | 0]; }
 
@@ -24,6 +27,10 @@ function initDecodeField(containerSelector){
     canvas.style.width = rect.width + 'px';
     canvas.style.height = rect.height + 'px';
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    // Resizing the canvas resets its text settings, so set them here
+    // rather than on every frame.
+    ctx.font = `${CELL - 2}px 'IBM Plex Mono', monospace`;
+    ctx.textBaseline = 'top';
 
     cols = Math.ceil(rect.width / CELL) + 1;
     rows = Math.ceil(rect.height / CELL) + 1;
@@ -31,6 +38,7 @@ function initDecodeField(containerSelector){
     for (let i = 0; i < cells.length; i++){
       cells[i] = { ch: randChar(), o: 0.05 + Math.random() * 0.08 };
     }
+    if (reduceMotion.matches) draw();
   }
 
   function onMove(e){
@@ -44,10 +52,8 @@ function initDecodeField(containerSelector){
   container.addEventListener('mouseleave', onLeave);
   window.addEventListener('resize', resize);
 
-  function tick(){
+  function draw(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.font = `${CELL - 2}px 'IBM Plex Mono', monospace`;
-    ctx.textBaseline = 'top';
 
     for (let r = 0; r < rows; r++){
       for (let c = 0; c < cols; c++){
@@ -80,9 +86,32 @@ function initDecodeField(containerSelector){
         }
       }
     }
-    requestAnimationFrame(tick);
   }
 
+  function tick(){
+    draw();
+    frameId = requestAnimationFrame(tick);
+  }
+
+  // Only animate while the hero is on screen and motion is welcome; with
+  // reduced motion the field is drawn once as a still image.
+  function updateRunning(){
+    const shouldRun = onScreen && !reduceMotion.matches;
+    if (shouldRun && !frameId){
+      frameId = requestAnimationFrame(tick);
+    } else if (!shouldRun && frameId){
+      cancelAnimationFrame(frameId);
+      frameId = 0;
+    }
+  }
+
+  new IntersectionObserver((entries) => {
+    onScreen = entries[0].isIntersecting;
+    updateRunning();
+  }).observe(container);
+  reduceMotion.addEventListener('change', () => { draw(); updateRunning(); });
+
   resize();
-  requestAnimationFrame(tick);
+  draw();
+  updateRunning();
 }

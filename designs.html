@@ -4,6 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Designs — Nima Ghalaenovi</title>
+<meta name="description" content="Interactive 3D models of mechanical designs by Nima Ghalaenovi, made in Fusion 360 and 3D printed.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Nima Ghalaenovi">
+<meta property="og:title" content="Designs — Nima Ghalaenovi">
+<meta property="og:description" content="Interactive 3D models of mechanical designs, made in Fusion 360 and 3D printed.">
+<meta property="og:url" content="https://number9-3852.github.io/website/designs.html">
+<meta property="og:image" content="https://number9-3852.github.io/website/img/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=Special+Elite&display=swap" rel="stylesheet">
@@ -11,28 +20,12 @@
 <link rel="stylesheet" href="designs.css">
 </head>
 <body>
-
-<div class="page-transition" id="pageTransition">
-  <div class="pt-label">LOADING</div>
-  <div class="pt-bar"></div>
-</div>
 <script src="transition.js"></script>
 
-<nav class="site-nav">
-  <a class="brand" href="index.html">Number<span>9</span>3852</a>
-  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
-  <div class="nav-overlay" id="navOverlay"></div>
-  <div class="nav-right" id="navMenu">
-    <a href="projects.html">PROJECTS</a>
-    <a href="designs.html">DESIGNS</a>
-    <a href="about.html">ABOUT</a>
-    <a href="contact.html">CONTACT</a>
-  </div>
-</nav>
+<nav class="site-nav"></nav>
 
 <main class="designs-stage" id="designsStage">
+  <h1 class="visually-hidden">Designs</h1>
 
   <div class="designs-counter" id="designsCounter">01 / 02</div>
 
@@ -40,7 +33,7 @@
   <section class="design-slide" data-index="1">
     <div class="model-pane">
       <canvas class="model-canvas" data-model="3D_model/CAT.gltf"></canvas>
-      <div class="model-hint">RIGHT-CLICK + DRAG TO ROTATE</div>
+      <div class="model-hint">DRAG TO ROTATE</div>
       <label class="model-upload">
         LOAD LOCAL MODEL
         <input type="file" accept=".glb,.gltf" class="model-file-input">
@@ -59,7 +52,7 @@
   <section class="design-slide" data-index="2">
     <div class="model-pane">
       <canvas class="model-canvas" data-model="3D_model/Mouse.gltf"></canvas>
-      <div class="model-hint">RIGHT-CLICK + DRAG TO ROTATE</div>
+      <div class="model-hint">DRAG TO ROTATE</div>
       <label class="model-upload">
         LOAD LOCAL MODEL
         <input type="file" accept=".glb,.gltf" class="model-file-input">

@@ -4,149 +4,36 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dual-Rail Power Supply Board — Nima Ghalaenovi</title>
+<meta name="description" content="A 2-layer KiCad PCB that turns a single 12V input into regulated 5V and 3.3V rails using a TPS54360 buck and an LDO.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Nima Ghalaenovi">
+<meta property="og:title" content="Dual-Rail Power Supply Board — Nima Ghalaenovi">
+<meta property="og:description" content="A 2-layer KiCad PCB that turns a single 12V input into regulated 5V and 3.3V rails using a TPS54360 buck and an LDO.">
+<meta property="og:url" content="https://number9-3852.github.io/website/project-5.html">
+<meta property="og:image" content="https://number9-3852.github.io/website/img/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=Special+Elite&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
-<style>
-.p-hero{
-  padding: 150px clamp(20px, 5vw, 56px) 0;
-  max-width: 1180px;
-  margin: 0 auto;
-}
-.back-link{
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--text-dim);
-  text-decoration:none;
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  margin-bottom: 30px;
-  transition: color .2s ease;
-}
-.back-link:hover{ color: var(--accent); }
-.p-eyebrow{
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--accent);
-  letter-spacing: 0.12em;
-  margin-bottom: 14px;
-}
-.p-eyebrow::before{ content:"// project 05 "; color: var(--text-faint); }
-.p-title{
-  font-family: var(--mono);
-  font-weight: 700;
-  font-size: clamp(32px, 6vw, 60px);
-  margin: 0 0 20px 0;
-}
-.p-tags{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom: 40px; }
-.tag{
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--text-dim);
-  border: 1px solid var(--rule);
-  padding: 4px 9px;
-  border-radius: 20px;
-}
-.p-image{
-  width:100%;
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: 0 clamp(20px, 5vw, 56px);
-}
-.p-image img{
-  width:100%;
-  border-radius: 4px;
-  border: 1px solid var(--rule);
-  background: #fff;
-}
-.p-body{
-  max-width: 780px;
-  margin: 60px auto 0;
-  padding: 0 clamp(20px, 5vw, 56px);
-}
-.p-body h2{
-  font-family: var(--mono);
-  font-size: 18px;
-  margin: 40px 0 14px 0;
-}
-.p-body h2:first-child{ margin-top:0; }
-.p-body p{
-  color: var(--text-dim);
-  font-size: 15.5px;
-  line-height: 1.8;
-  margin: 0 0 16px 0;
-}
-.p-body figure{
-  margin: 24px 0;
-}
-.p-body figure img{
-  width:100%;
-  border-radius: 4px;
-  border: 1px solid var(--rule);
-  background: #fff;
-}
-.p-body figcaption{
-  font-family: var(--mono);
-  font-size: 11.5px;
-  color: var(--text-faint);
-  margin-top: 8px;
-}
-.spec-table{
-  width:100%;
-  border-collapse: collapse;
-  margin: 10px 0 20px;
-  font-size: 14px;
-}
-.spec-table th, .spec-table td{
-  text-align: left;
-  padding: 9px 10px;
-  border-bottom: 1px solid var(--rule);
-}
-.spec-table th{
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  color: var(--text-faint);
-  font-weight: 500;
-}
-.spec-table td{ color: var(--text-dim); }
-.spec-table td:first-child{ color: var(--text); font-family: var(--mono); font-size: 13px; }
-.p-links{
-  display:flex; gap: 16px; margin: 34px 0 100px;
-  max-width: 780px;
-  padding: 0 clamp(20px, 5vw, 56px);
-  margin-left:auto; margin-right:auto;
-}
-</style>
+<link rel="stylesheet" href="project.css">
 <script src="nav.js" defer></script>
 </head>
 <body>
+<script src="transition.js"></script>
 
-<nav class="site-nav">
-  <a class="brand" href="index.html">Number<span>9</span>3852</a>
-  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
-  <div class="nav-overlay" id="navOverlay"></div>
-  <div class="nav-right" id="navMenu">
-    <a href="projects.html" class="is-active">PROJECTS</a>
-    <a href="designs.html">DESIGNS</a>
-    <a href="about.html">ABOUT</a>
-    <a href="contact.html">CONTACT</a>
-  </div>
-</nav>
+<nav class="site-nav"></nav>
 
 <div class="p-hero">
   <a class="back-link" href="projects.html">← Back to projects</a>
-  <div class="p-eyebrow">index</div>
+  <div class="p-eyebrow" data-num="05">index</div>
   <h1 class="p-title">Dual-Rail Power Supply Board</h1>
   <div class="p-tags"><span class="tag">KiCad</span><span class="tag">Power Electronics</span><span class="tag">PCB Design</span></div>
 </div>
 
 <div class="p-image">
-  <img src="img/project 5/power-board-pcb-layout.png" alt="PCB layout of the power supply board in KiCad">
+  <img src="img/project 5/power-board-pcb-layout.png" alt="PCB layout of the power supply board in KiCad" width="2339" height="1654">
 </div>
 
 <div class="p-body">
@@ -160,7 +47,7 @@
 <h2>What I built</h2>
 <p>The 12V input feeds a <strong>TPS54360</strong> synchronous buck converter (U1) that steps it down to 5V. The output feedback divider (R4/R5) sets the regulation point, R6 and the RT/CLK pin set the switching frequency, and an LC output filter (L1, 8.2µH, plus the C6/C7 output capacitor bank) keeps ripple in check. A resistor divider off VIN (R1/R2/R3) sets the enable/UVLO threshold so the converter stays off until the input is within a safe range, and a bootstrap capacitor (C5) drives the high-side switch. A Schottky diode (D1) sits across the switch node for extra protection during transients.</p>
 <figure>
-  <img src="img/project 5/power-board-schematic.png" alt="Schematic of the buck converter and LDO stages">
+  <img loading="lazy" decoding="async" src="img/project 5/power-board-schematic.png" alt="Schematic of the buck converter and LDO stages">
   <figcaption>Schematic — TPS54360 buck stage (12V → 5V) feeding an AMS1117-3.3 LDO (5V → 3.3V)</figcaption>
 </figure>
 <p>The regulated 5V rail is broken out directly for the servos, and also feeds an <strong>AMS1117-3.3</strong> linear regulator (U2) to derive the 3.3V rail for the microcontroller and sensors. Using the switching regulator's 5V output as the LDO's input — rather than dropping straight from 12V to 3.3V linearly — keeps the LDO's dropout losses small since it's only shedding 1.7V instead of 8.7V.</p>
@@ -178,7 +65,7 @@
 </table>
 
 <figure>
-  <img src="img/project 5/main.png" alt="Dual-Rail Power Supply Board">
+  <img loading="lazy" decoding="async" src="img/project 5/main.webp" alt="Dual-Rail Power Supply Board">
 </figure>
 
 <h2>Outcome</h2>

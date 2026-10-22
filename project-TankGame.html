@@ -4,52 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tank vs. Pathfinder — Nima Ghalaenovi</title>
+<meta name="description" content="A top-down maze shooter in Python and Pygame with an A* pathfinding enemy, playable in the browser via WebAssembly.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Nima Ghalaenovi">
+<meta property="og:title" content="Tank vs. Pathfinder — Nima Ghalaenovi">
+<meta property="og:description" content="A top-down maze shooter in Python and Pygame with an A* pathfinding enemy, playable in the browser via WebAssembly.">
+<meta property="og:url" content="https://number9-3852.github.io/website/project-TankGame.html">
+<meta property="og:image" content="https://number9-3852.github.io/website/img/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=Special+Elite&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="project.css">
 <style>
-.p-hero{
-  padding: 150px clamp(20px, 5vw, 56px) 0;
-  max-width: 1180px;
-  margin: 0 auto;
-}
-.back-link{
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--text-dim);
-  text-decoration:none;
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  margin-bottom: 30px;
-  transition: color .2s ease;
-}
-.back-link:hover{ color: var(--accent); }
-.p-eyebrow{
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--accent);
-  letter-spacing: 0.12em;
-  margin-bottom: 14px;
-}
-.p-eyebrow::before{ content:"// project 06 "; color: var(--text-faint); }
-.p-title{
-  font-family: var(--mono);
-  font-weight: 700;
-  font-size: clamp(32px, 6vw, 60px);
-  margin: 0 0 20px 0;
-}
-.p-tags{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom: 40px; }
-.tag{
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--text-dim);
-  border: 1px solid var(--rule);
-  padding: 4px 9px;
-  border-radius: 20px;
-}
-
 /* ---------- Playable game panel ---------- */
 .p-play{
   width:100%;
@@ -131,72 +100,17 @@
   border-radius: 20px;
 }
 .ctrl-chip b{ color: var(--accent); font-weight: 600; }
-
-.p-body{
-  max-width: 780px;
-  margin: 60px auto 0;
-  padding: 0 clamp(20px, 5vw, 56px);
-}
-.p-body h2{
-  font-family: var(--mono);
-  font-size: 18px;
-  margin: 40px 0 14px 0;
-}
-.p-body h2:first-child{ margin-top:0; }
-.p-body p{
-  color: var(--text-dim);
-  font-size: 15.5px;
-  line-height: 1.8;
-  margin: 0 0 16px 0;
-}
-.spec-table{
-  width:100%;
-  border-collapse: collapse;
-  margin: 10px 0 20px;
-  font-size: 14px;
-}
-.spec-table th, .spec-table td{
-  text-align: left;
-  padding: 9px 10px;
-  border-bottom: 1px solid var(--rule);
-}
-.spec-table th{
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  color: var(--text-faint);
-  font-weight: 500;
-}
-.spec-table td{ color: var(--text-dim); }
-.spec-table td:first-child{ color: var(--text); font-family: var(--mono); font-size: 13px; }
-.p-links{
-  display:flex; gap: 16px; margin: 34px 0 100px;
-  max-width: 780px;
-  padding: 0 clamp(20px, 5vw, 56px);
-  margin-left:auto; margin-right:auto;
-}
 </style>
 <script src="nav.js" defer></script>
 </head>
 <body>
+<script src="transition.js"></script>
 
-<nav class="site-nav">
-  <a class="brand" href="index.html">Number<span>9</span>3852</a>
-  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
-  <div class="nav-overlay" id="navOverlay"></div>
-  <div class="nav-right" id="navMenu">
-    <a href="projects.html" class="is-active">PROJECTS</a>
-    <a href="designs.html">DESIGNS</a>
-    <a href="about.html">ABOUT</a>
-    <a href="contact.html">CONTACT</a>
-  </div>
-</nav>
+<nav class="site-nav"></nav>
 
 <div class="p-hero">
   <a class="back-link" href="projects.html">← Back to projects</a>
-  <div class="p-eyebrow">index</div>
+  <div class="p-eyebrow" data-num="01">index</div>
   <h1 class="p-title">Tank vs. Pathfinder</h1>
   <div class="p-tags"><span class="tag">Python</span><span class="tag">Pygame</span><span class="tag">A* Pathfinding</span></div>
 </div>
@@ -229,7 +143,7 @@
 <p>The maze itself is generated from a small bitmap (<code>1.png</code>) — each pixel maps to a 25×25px tile, and black pixels become wall rects, so the level layout is literally paintable as an image. The player tank moves on WASD with rect-based collision against every wall tile, and firing spawns a bullet that travels toward the mouse cursor with real vector math.</p>
 <p>The "attacker" enemy uses the <code>pathfinding</code> library's A* implementation over a grid built from the same maze data. Every 60 frames it recalculates a path from its current tile to the tank's tile, converts that path into a sequence of waypoints, and steers toward them one at a time — so it genuinely routes around walls rather than just moving in a straight line. When it gets within range of the tank it fires back, and bullets from both sides are checked against walls and against each other.</p>
 
-        <h2>Technical details</h2>
+<h2>Technical details</h2>
 <table class="spec-table">
   <tr><th>Parameter</th><th>Value</th></tr>
   <tr><td>Engine</td><td>Pygame</td></tr>
@@ -256,6 +170,7 @@
     var iframe = document.createElement('iframe');
     iframe.src = 'game/tank game/index.html';
     iframe.allow = 'autoplay';
+    iframe.title = 'Tank vs. Pathfinder game';
     frame.innerHTML = '';
     frame.appendChild(iframe);
   });
